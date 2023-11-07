@@ -40,3 +40,8 @@ Script currently in development. Currently run via:
 # [arg] is a valid R number from National Genomic Test Directory
 python main.py [arg]
 ```
+
+## Testing
+```
+pytest test/
+```
