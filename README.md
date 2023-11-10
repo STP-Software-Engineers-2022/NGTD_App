@@ -24,7 +24,7 @@ A tool to manage gene panels for NHS National genomic test directory tests in th
 
 ## Gitflow
 ### Generic Gitflow
-![]('docs/generic_gitflow.png')
+![Alt text](docs/generic_gitflow.png?raw=true)
 
 ### Our Gitflow
 Updated: 10/11/2023
