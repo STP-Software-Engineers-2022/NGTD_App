@@ -28,6 +28,7 @@ A tool to manage gene panels for NHS National genomic test directory tests in th
 
 ### Our Gitflow
 Updated: 10/11/2023
+![Alt text](docs/project_gitflow.png?raw=true)
 
 ## Download Details and Conda Env Creation
 ```
