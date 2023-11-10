@@ -11,6 +11,7 @@ def main():
     # initialise cli object
     cli_obj = cli.cli_obj(sys.argv[1:])
     r_code = cli_obj.args.r_number
+    store = cli_obj.args.store
 
     # Create an instance of MyRequests
     my_requests = pan.MyRequests(r_code)
@@ -18,6 +19,8 @@ def main():
     # Make the API request
     response = my_requests.request_data()
     my_requests.print_info(response, r_code)
+
+    my_requests.database_postage(response, r_code)
 
 if __name__ == "__main__":
     main()

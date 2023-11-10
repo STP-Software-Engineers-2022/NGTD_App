@@ -13,18 +13,38 @@ class MyRequests:
         return requests.get(self.base_url + self.url)
     
     def print_info(self, response, r_code):
-        # Method of printing JSON structures in a more legible format
-        #json_str = json.dumps(response.json(), indent=4)
-        #print(json_str)
+        gene_list = [gene["gene_data"]["gene_symbol"] for gene in response.json()["genes"]]
 
-        gene_list = []
-
-        for gene_number in range(len(response.json()["genes"])):
-            gene_symbol = response.json()["genes"][gene_number]["gene_data"]["gene_symbol"]
-            gene_list.append(gene_symbol)
+        # Get GMS signed off status, checking whether a record exists or not
+        try:
+            signoff = response.json()["types"][2]["name"]
+        except:
+            signoff = "not GMS signed-off"
 
         # Print results to terminal screen
-        print("\n")
-        print("Clinical Indication:", response.json()["name"])
-        print(" ".join(["Genes included in the", r_code, "panel:", " ".join(gene_list)]))
-        print("\n")
+        if signoff == "GMS signed-off":
+            print(" ".join(["\nThis panel is", signoff]))
+        else:
+            print(" ".join(["\nThis panel is", signoff]))
+        print("\nClinical Indication:", response.json()["name"])
+        print(" ".join(["\nGenes included in the", r_code, "panel:", " ".join(gene_list), "\n"]))
+
+    def database_postage(self, response, r_code):
+        # Get gene symbols and HGNC IDs in lists for dictionary    
+        gene_list = [gene["gene_data"]["gene_symbol"] for gene in response.json()["genes"]]
+        hgnc_id_list = [gene["gene_data"]["hgnc_id"] for gene in response.json()["genes"]]
+        r_code = r_code # Reminder
+
+        # Get GMS signed off status, checking whether a record exists or not
+        try:
+            signoff = response.json()["types"][2]["name"]
+        except:
+            signoff = "not GMS signed-off"
+
+        # Create dictionary for R number
+        r_dict = {}
+
+        r_dict = {'r_number': r_code, 'signoff_status': signoff, 'genes': gene_list, 'hgnc_id_list': hgnc_id_list}
+        print(r_dict)
+        return r_dict
+        

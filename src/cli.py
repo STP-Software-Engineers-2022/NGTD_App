@@ -10,8 +10,13 @@ class cli_obj():
         parser = argparse.ArgumentParser(description='')
 
         parser.add_argument(
-            '-r', '--r_number', required = True, help = 'Provide the R number \
+            '-r', '--r_number', required = True, 
+            help = 'Provide the R number \
                 from the National Genomic Test Directory.')
+        parser.add_argument(
+            '-s', '--store', required = False, 
+            help = 'Binary "yes" or "no" - do you want to \
+                record your query.')
         parser.add_argument(
             '-f', '--file', action='store_true',
             help='A txt file containing a list of R numbers. Gene list \
