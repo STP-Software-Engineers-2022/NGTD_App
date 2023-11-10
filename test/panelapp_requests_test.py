@@ -5,6 +5,16 @@ R number
 ############################################################################'''
 
 import pytest
-import src.panelapp_requests as target
+import src.panelapp_requests as panelapp_requests
 
-test = True
+def test_request_data():
+    r_code = 'R134'
+    target = panelapp_requests.MyRequests(r_code)
+    response = target.request_data()
+    assert response.status_code == 200
+
+def test_print_info():
+    r_code = 'R134'
+    target = panelapp_requests.MyRequests(r_code)
+    response = target.request_data()
+    
