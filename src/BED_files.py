@@ -13,11 +13,11 @@ class cli_obj():
         parser = argparse.ArgumentParser(description='')
 
         parser.add_argument(
-            '-g', '--gene', required = True, help = 'Enter the gene you \
-                wish to generate a BED file from')
+            '-g', '--gene', required = True, help = 'Enter a gene name')
         parser.add_argument(
-            '-r', '--reference_genome', required = True, help = 'Would you like a \
-                BED file for GRCh37 or GRCh38?')
+            '-r', '--reference_genome', required = True, help = 'GRCh37 or GRCh38?')
+        parser.add_argument(
+            '-b', '--bed_file', action='store_true', help = 'Generates a seperate bed file')
         
         self.args = parser.parse_args(sys_args)
 
@@ -31,15 +31,17 @@ class GRCh37:
 
     # Method that makes the call to the API using the get method
     def request_data(self):
-        return requests.get(self.base_url + self.url, headers={ "Content-Type" : "application/json"})
+        return requests.get(self.base_url + self.url, headers = { "Content-Type" : "application/json"})
 
     def print_info(self, grch37response):
         if grch37response.ok:
             print('\t'.join([
-                grch37response.json()["assembly_name"],
-                grch37response.json()["canonical_transcript"],
+                "".join(["chr", grch37response.json()["seq_region_name"]]),
                 str(grch37response.json()["start"]),
-                str(grch37response.json()["end"])
+                str(grch37response.json()["end"]),
+                grch37response.json()["assembly_name"],
+                grch37response.json()["display_name"],
+                grch37response.json()["canonical_transcript"]
     ]))
         else:
             print("Error:", grch37response.status_code)
@@ -59,10 +61,12 @@ class GRCh38:
     def print_info(self, grch38response):
         if grch38response.ok:
             print('\t'.join([
-                grch38response.json()["assembly_name"],
-                grch38response.json()["canonical_transcript"],
+                "".join(["chr", grch38response.json()["seq_region_name"]]),
                 str(grch38response.json()["start"]),
-                str(grch38response.json()["end"])
+                str(grch38response.json()["end"]),
+                grch38response.json()["assembly_name"],
+                grch38response.json()["display_name"],
+                grch38response.json()["canonical_transcript"]
     ]))
         else:
             print("Error:", grch38response.status_code)
@@ -74,22 +78,24 @@ args = cli_obj(sys.argv[1:]).args
 grch37 = GRCh37(args.gene)
 grch38 = GRCh38(args.gene)
 
-# Open a new .bed file for each search in append mode
-# Automatically close the file after writing
-with open(args.gene + ".bed", "a") as output_file:
+if args.bed_file:  # Check if the -b flag is present to create bed file
+
+    # Open a new .bed file for each search in append mode (-a)
+    # 'With' automatically close the file after writing
+    with open(args.gene + ".bed", "a") as output_file:
     
-    # Redirect the standard output to the .bed file
-    sys.stdout = output_file
+        # Redirect the standard output to the .bed file
+        sys.stdout = output_file
 
-    # Make the API requests
-    grch37response = grch37.request_data()
-    grch38response = grch38.request_data()
+        # Make the API requests
+        grch37response = grch37.request_data()
+        grch38response = grch38.request_data()
 
-    # Print the output
-    if args.reference_genome == "GRCh37": 
-        grch37.print_info(grch37response)
-    elif args.reference_genome == "GRCh38": 
-        grch38.print_info(grch38response)
+        # Print the output
+        if args.reference_genome == "GRCh37": 
+            grch37.print_info(grch37response)
+        elif args.reference_genome == "GRCh38": 
+            grch38.print_info(grch38response)
 
-    # Restore the standard output
-    sys.stdout = sys.__stdout__
+        # Restore the standard output
+        sys.stdout = sys.__stdout__
