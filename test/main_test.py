@@ -3,7 +3,6 @@ Test executable python file
 ############################################################################'''
 
 import pytest
-import sys
 import main as target
 
 def test_main(monkeypatch):
