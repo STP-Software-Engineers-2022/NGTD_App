@@ -22,12 +22,9 @@ A tool to manage gene panels for NHS National genomic test directory tests in th
 
 4. Build a repository of which tests, gene panels, BED files, reference sequences and version which have been applied to each patient case so that the laboratory has an accurate record of how analyses were performed.
 
-### Trello Board
-https://trello.com/b/YM0xnSCm/stp-software-engineers-2022
-
 ## Download Details and Conda Env Creation
 ```
-git clone "https://github.com/STP-Software-Engineers-2022/NGTD_App.git"
+git clone https://github.com/STP-Software-Engineers-2022/NGTD_App.git
 cd NGTD_App
 conda env create -f environment.yml
 conda activate ngtd
@@ -43,5 +40,5 @@ python main.py [arg]
 
 ## Testing
 ```
-pytest test/
+pytest
 ```
