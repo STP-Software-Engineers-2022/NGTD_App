@@ -2,8 +2,8 @@
 # README.md
 ## NGTD_App as part of STP Software Engineering Module
 ###### Date created: 2023-11-07
-###### Date modified: 2023-11-07
-###### Authors: danniscales, DolapoA, NGallop
+###### Date modified: 2023-11-14
+###### Authors: Dolapo Ajayi, Niall Gallop, Caroline Riehl, Danni Scales
 
 ## Overview
 A tool to manage gene panels for NHS National genomic test directory tests in the laboratory
@@ -43,7 +43,7 @@ pip install -r requirements.txt
 Script currently in development. Currently run via:
 ```
 # [arg] is a valid R number from National Genomic Test Directory
-python main.py [arg]
+python main.py -r [arg]
 ```
 
 ## Testing
