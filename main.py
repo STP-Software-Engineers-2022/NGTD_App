@@ -4,7 +4,7 @@ Date: 07/11/2023
 ############################################################################'''
 import sys
 import src.cli as cli
-import src.panelapp_requests as panel
+import src.panelapp_requests as pan
 
 def main():
 
@@ -14,7 +14,7 @@ def main():
     bed = cli_obj.args.bed
 
     # Create an instance of MyRequests
-    my_requests = panel.MyRequests(r_code)
+    my_requests = pan.MyRequests(r_code)
 
     # Make the API request
     response = my_requests.request_data()
