@@ -1,11 +1,12 @@
+import os
 import logging
 from logging.handlers import TimedRotatingFileHandler
-import os
+from datetime import date
 
 
 class Logger:
 
-    def __init__(self, name='log', log_level='DEBUG', prefix='local', log_dir='logs'):
+    def __init__(self, name, log_level, prefix='local-', log_dir='logs'):
         """
         Configures a daily logger
         :param name: logger's name
@@ -19,16 +20,16 @@ class Logger:
         # 2. Sets logger's severity threshold.
         self.logger.setLevel(log_level)
 
-        # 3. Creates a daily log file and stores it at log_dir
+        # 3. Creates log name from prefix and suffix using today's date
+        log_file_name = f"{prefix}{date.today()}.log"
+
+        # 4. Creates a daily log file and stores it at log_dir
         # prepending a prefix.
         fh = TimedRotatingFileHandler(
-            os.path.join(log_dir, prefix), 
+            os.path.join(log_dir, log_file_name), 
             when='midnight', 
             interval=1
         )
-
-        # 4. Adds the date to the daily log file name.
-        fh.suffix = "%Y%m%d.log"
 
         # 5. Configures the log string format
         formatter = logging.Formatter(
