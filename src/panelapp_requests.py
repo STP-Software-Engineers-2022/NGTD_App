@@ -3,7 +3,12 @@ Purpose: For making requests to panelapp api, packaging data for
 database deposition
 Date: 07/11/2023
 ####################################################################'''
+import os
 import requests
+import certifi
+import ssl
+from urllib.request import urlopen
+import re
 
 # Create class for requests
 class MyRequests:
@@ -12,7 +17,6 @@ class MyRequests:
         self.base_url = "https://panelapp.genomicsengland.co.uk/api/v1"
         # Update the URL to include the endpoint
         self.url = "".join(["/panels/", r_code])
-        self.url_signed = "".join(["/panels/signedoff/", r_code])
 
     # Method that makes the call to the API using the get method
     def request_data(self):
@@ -87,7 +91,41 @@ class MyRequests:
                     "genes": g_list, "hgnc_id_list": h_list}
                 print(r_dict)
                 return r_dict
-                
 
-                    
-        
+    # Method to download National Test directory document            
+    def download_doc(self, get_doc, output):
+        if get_doc:
+            # Specify the CA bundle path - to acoid SSL certificate verification failure
+            cafile = certifi.where()
+            context = ssl.create_default_context(cafile=cafile)
+
+            # Open html page as text to be search through
+            url = "https://www.england.nhs.uk/publication/national-genomic-test-directories/"
+            page = urlopen(url, context=context)
+            html = page.read().decode("utf-8")
+
+            # Create regular expressions to find document version
+            pattern = ("The National genomic test directory.*rare "
+            "and inherited disorders.*</p>\n<p>Version.*</p>")
+            pattern_two = "<.*?>.*<.*?>"
+            match_results = re.search(pattern, html, re.IGNORECASE)
+            match_results_two = re.search(pattern_two, match_results[0], re.IGNORECASE)
+            doc_version = re.sub("^<.*?>|</.*?>", "", match_results_two[0])
+            doc_version = doc_version.split(" ") # remove unnecessary text
+            print("Downloaded Test Directory", doc_version[0], doc_version[1])
+
+            # Create regex to download NGTD document
+            pattern_three = ("<a href=.*Rare-and-inherited-disease-"
+            "national-genomic-test-directory-version.*xlsx")
+            match_results_three = re.search(pattern_three, html, re.IGNORECASE)
+            doc_url = re.sub("<a href=\"", "", match_results_three[0])
+            doc_file = doc_url.split("/")
+            doc_request = requests.get(doc_url, allow_redirects = True)
+            if output:
+                output = os.path.realpath(output)
+                output = "".join([output,"/", doc_file[7]])
+                open(output, "wb").write(doc_request.content)
+                print("It can be found in:", output)
+            else:
+                open(doc_file[7], "wb").write(doc_request.content)
+                print("in current directory:", os.path.realpath("."))

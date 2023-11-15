@@ -12,6 +12,8 @@ def main():
     cli_obj = cli.cli_obj(sys.argv[1:])
     r_code = cli_obj.args.r_number
     bed = cli_obj.args.bed
+    get_doc = cli_obj.args.get_doc
+    output =  cli_obj.args.output
 
     # Create an instance of MyRequests
     my_requests = pan.MyRequests(r_code)
@@ -22,6 +24,8 @@ def main():
 
     # Prepare data for database deposition
     my_requests.database_postage(response, r_code, bed)
+
+    my_requests.download_doc(get_doc, output)
 
 if __name__ == "__main__":
     main()
