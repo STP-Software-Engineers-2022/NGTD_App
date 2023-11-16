@@ -1,5 +1,6 @@
 """ Makes a request for a gene list from a given R number"""
 import requests
+import sys
 from config import log
 
 class MyRequests:
@@ -37,16 +38,16 @@ class MyRequests:
                   'or does not exist.\nPlease refer to Genomic Test Directory'
                   ' for guidance.')
             log.error(errh.args[0])
-            quit()
+            sys.exit(1)
         except requests.exceptions.ReadTimeout as errt:
             print("Error: Time out on API request")
             log.error(errt.args[0])
-            quit()
+            sys.exit(1)
         except requests.exceptions.ConnectionError as conerr:
             print("Connection Error: No internet connection")
             log.error(conerr.args[0])
-            quit()
-            
+            sys.exit(1)
+
         return response
     
     def gene_list(self, response):
