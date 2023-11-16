@@ -34,7 +34,7 @@ def test_print_info(capsys, r_code, target):
     target.print_info(response, r_code, gene_list)
     captured = capsys.readouterr()
     assert captured.out == (
-        '\n\nClinical Indication: Familial hypercholesterolaemia (GMS)'
+        '\nClinical Indication: Familial hypercholesterolaemia (GMS)'
         '\nGenes included in the R134 panel: APOB APOE LDLR LDLRAP1 PCSK9'
-        ' GCKR\n\n\n'
+        ' GCKR\n'
     )

@@ -22,7 +22,7 @@ def main(argv=None):
     my_requests.print_info(response, r_code, gene_list)
     
     to_log = 'main.py ran successfully'
-    print(f"Logging: {to_log}")
+    print(f"\nLogging: {to_log}")
     log.info(to_log)
 
     return True
