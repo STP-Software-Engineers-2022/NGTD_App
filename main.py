@@ -18,9 +18,10 @@ def main(argv=None):
 
     # Make the API request
     response = my_requests.request_data()
-    my_requests.print_info(response, r_code)
+    gene_list = my_requests.gene_list(response)
+    my_requests.print_info(response, r_code, gene_list)
     
-    to_log = 'Example_log'
+    to_log = 'main.py ran successfully'
     print(f"Logging: {to_log}")
     log.info(to_log)
 
