@@ -21,8 +21,8 @@ def main(argv=None):
 
     # Make the API request
     response = my_requests.request_data()
-    gene_list = my_requests.gene_list(response)
-    my_requests.print_info(response, r_code, gene_list)
+    gene_list, signoff = my_requests.gene_list(response)
+    my_requests.print_info(response, r_code, gene_list, signoff)
     
     to_log = 'main.py ran successfully'
     print(f"\nLogging: {to_log}")

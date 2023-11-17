@@ -35,17 +35,18 @@ def test_request_data_bad_r_code(bad_r_target):
    
 def test_gene_list(target):
     response = target.request_data()
-    gene_list = target.gene_list(response)
+    gene_list, signoff = target.gene_list(response)
     assert gene_list == ['APOB', 'APOE', 'LDLR', 'LDLRAP1', 'PCSK9', 'GCKR']
 
 
 def test_print_info(capsys, r_code, target):
     response = target.request_data()
-    gene_list = target.gene_list(response)
-    target.print_info(response, r_code, gene_list)
+    gene_list, signoff = target.gene_list(response)
+    target.print_info(response, r_code, gene_list, signoff)
     captured = capsys.readouterr()
     assert captured.out == (
-        '\nClinical Indication: Familial hypercholesterolaemia (GMS)'
+        '\nThis panel is GMS signed-off'
+        '\n\nClinical Indication: Familial hypercholesterolaemia (GMS)'
         '\nGenes included in the R134 panel: APOB APOE LDLR LDLRAP1 PCSK9'
         ' GCKR\n'
     )
