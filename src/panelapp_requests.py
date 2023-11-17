@@ -1,49 +1,89 @@
-'''####################################################################
-Purpose: For making requests to panelapp api, packaging data for  
-database deposition
-Date: 07/11/2023
-####################################################################'''
+""" Makes a request for a gene list from a given R number"""
 import os
 import requests
 import certifi
 import ssl
-from urllib.request import urlopen
 import re
+import sys
+from urllib.request import urlopen
+from config import log
 
-# Create class for requests
+
 class MyRequests:
+    """
+    Object that initialises with a URL to make the request
+    
+    Attributes
+    __________
+    base_url : str
+        a static base URL to be appended to in later requests
+    url : str
+        the url appendage that contains the r_number passed into from args
+
+    Methods
+    _______
+    request_data()
+        performs the API request
+    gene_list(response)
+        generates the list of genes from the gene panel from the API response
+    print_info(response, r_code, gene_list)
+        prints the gene list to the terminal along with clinical indication
+    """
 
     def __init__(self, r_code):
         self.base_url = "https://panelapp.genomicsengland.co.uk/api/v1"
-        # Update the URL to include the endpoint
         self.url = "".join(["/panels/", r_code])
-
-    # Method that makes the call to the API using the get method
-    def request_data(self):
-        return requests.get(self.base_url + self.url)
     
-    # Method that prints key data to the terminal
-    def print_info(self, response, r_code):
-        g_list = [g["gene_data"]["gene_symbol"] \
-            for g in response.json()["genes"]]
 
+    def request_data(self):
+        try:
+            response = requests.get(
+                self.base_url + self.url, timeout=2, verify=True)
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as errh:
+            print('HTTP Error: R number is not associated with a gene panel '
+                  'or does not exist.\nPlease refer to Genomic Test Directory'
+                  ' for guidance.')
+            log.error(errh.args[0])
+            sys.exit(1)
+        except requests.exceptions.ReadTimeout as errt:
+            print("Error: Time out on API request")
+            log.error(errt.args[0])
+            sys.exit(1)
+        except requests.exceptions.ConnectionError as conerr:
+            print("Connection Error: No internet connection")
+            log.error(conerr.args[0])
+            sys.exit(1)
+
+        return response
+    
+    def gene_list(self, response):
+        gene_list = []
+        try:
+            gene_list = [gene["gene_data"]["gene_symbol"] \
+                for gene in response.json()["genes"]]
+        except KeyError as kerr:
+            print("Error: incorrect format of API response."
+                  f"{kerr} field not present in JSON.")
+            log.critical(kerr)
+            sys.exit(1)
+            
         # Get GMS signed off status
-        s_list = [s["name"] for s in response.json()["types"]]
+        panel_info = [status["name"] for status in response.json()["types"]]
 
-        if "GMS signed-off" in s_list:
+        if "GMS signed-off" in panel_info:
             signoff = "GMS signed-off"
         else:
             signoff = "not GMS signed-off"
 
-        # Print results to terminal screen
+        return gene_list, signoff
+
+    def print_info(self, response, r_code, gene_list, signoff):
         print("\nThis panel is", signoff)
-        print("\nPanel ID:", response.json()["id"], \
-            "".join(["v", response.json()["version"]]))
-
         print("\nClinical Indication:", response.json()["name"])
-        print(" ".join(["\nGenes included in the", r_code, "panel:", \
-            " ".join(g_list), "\n"]))
-
+        print(" ".join(
+            ["Genes included in the", r_code, 
+             "panel:", " ".join(gene_list)]))
 
     # Method that packages data in dictionary ready for database & checks if user is okay with non-GMS signed panels
     def database_postage(self, response, r_code, bed):
