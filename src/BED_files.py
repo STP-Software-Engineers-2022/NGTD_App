@@ -69,6 +69,7 @@ if args.bed_file:  # Check if the -b flag is present to create bed file
                     end = exon["genomic_end"]
 
                     print('\t'.join([
+                        str(args.reference_genome),
                         "chr" + str(chromosome),
                         str(gene_symbol),
                         str(hgnc),
