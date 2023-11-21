@@ -41,8 +41,8 @@ my_requests = MyRequests(args.gene, args.reference_genome)
 
 if args.bed_file:  # Check if the -b flag is present to create bed file
      
-     # Open a new .bed file for each search in append mode (-a)
-    # 'With' automatically closes the file after writing
+    # Open a new .bed file for each search in append mode (-a)
+    # 'with' automatically closes the file after writing
     with open(args.gene + "_" + args.reference_genome + ".bed", "a") as output_file:
     
         # Redirect the standard output to the .bed file
@@ -51,7 +51,7 @@ if args.bed_file:  # Check if the -b flag is present to create bed file
         # Make the API requests
         response = my_requests.request_data()
 
-        # check the response status code
+        # Check the response status code
         if response.status_code == 200:
             
         # Print exon information
@@ -74,8 +74,8 @@ if args.bed_file:  # Check if the -b flag is present to create bed file
                         str(gene_symbol),
                         str(hgnc),
                         str(exon_number),
-                        str(start),
-                        str(end)
+                        str(start - 30), # includes 30 bases upstream of exon start
+                        str(end + 10) # includes 10 bases downstream of exon end
                         ]))
 
         else:
