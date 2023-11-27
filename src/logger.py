@@ -6,7 +6,7 @@ from datetime import date
 
 class Logger:
 
-    def __init__(self, name, log_level, prefix='local-', log_dir='logs'):
+    def __init__(self, name, log_level, prefix='da-', log_dir='logs'):
         """
         Configures a daily logger
         :param name: logger's name

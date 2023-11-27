@@ -10,7 +10,7 @@ class cli_obj():
         parser = argparse.ArgumentParser(description='')
 
         parser.add_argument(
-            '-r', '--r_number', required = True, 
+            '-r', '--r_number', required = False, 
             help = 'Provide the R number \
                 from the National Genomic Test Directory.')
         parser.add_argument(
