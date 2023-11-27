@@ -27,6 +27,8 @@ class cli_obj():
 class request_data():
 
     def __init__(self, gene, reference_genome):
+        self.gene = gene
+        self.ref_genome = reference_genome
         self.base_url = "https://rest.variantvalidator.org/"
         # Update the URL to include the correct version and endpoint
         self.url = "".join(["/VariantValidator/tools/gene2transcripts_v2/", 
@@ -37,38 +39,34 @@ class request_data():
         return requests.get(self.base_url + self.url, 
                             headers={"Content-Type": "application/json"})
     
-    def save_bed_file(self, response, args):
+    def save_bed_file(self, response):
 
-        output_file = f"output/{args.gene}_{args.reference_genome}.bed"
+        output_file = f"output/{self.gene}_{self.ref_genome}.bed"
         transcript = response.json()
-        print(transcript)
 
         chromosome = transcript[0]["transcripts"][0]["annotations"]\
             ["chromosome"]
         gene_symbol = transcript[0]["current_symbol"]
         hgnc = transcript[0]["hgnc"]
+        transcript_id = transcript[0]["transcripts"][0]["reference"]
 
-        with open(output_file, "a") as file:
-            sys.stdout = file
+        with open(output_file, "w") as file:
+            file.write(f"#GENE symbol: {gene_symbol}\n")
+            file.write(f"#HGNC synbol: {hgnc}\n")
+            file.write(f"#REFERENCE GENOME BUILD: {self.ref_genome}\n")
+            file.write(f"#TRANSCRIPT: {transcript_id}\n")
+            file.write(f"#CHROMO\t #EXON\t #START\t #END\n")
+
             for genomic_span_key, genomic_span_value in transcript[0]\
                 ["transcripts"][0]["genomic_spans"].items():
                 for exon in genomic_span_value["exon_structure"]:
                     exon_number = exon["exon_number"]
                     start = exon["genomic_start"]
                     end = exon["genomic_end"]
+                    file.write('\t'.join(["chr" + str(chromosome),
+                        str(exon_number), str(start - 30), str(end + 10), "\n"
+                    ]))
 
-                    print('\t'.join([
-                        str(args.reference_genome),
-                        "chr" + str(chromosome),
-                        str(gene_symbol),
-                        str(hgnc),
-                        str(exon_number),
-                        # vv  includes 30 bases upstream of exon start
-                        str(start - 30),
-                        # vv  includes 10 bases downstream of exon end
-                        str(end + 10)
-                        ]))
-            sys.stdout = sys.__stdout__
 
 
 def main():
@@ -81,9 +79,8 @@ def main():
 
 
     if args.bed_file:  # Check if the -b flag is present to create bed file
-         request_obj.save_bed_file(response, args)
+         request_obj.save_bed_file(response)
         
-
 
 if __name__ == "__main__":
     main()
