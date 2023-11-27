@@ -24,7 +24,7 @@ class cli_obj():
         self.args = parser.parse_args(sys_args)
 
 # Create class for requests
-class request_data:
+class request_data():
 
     def __init__(self, gene, reference_genome):
         self.base_url = "https://rest.variantvalidator.org/"
@@ -33,67 +33,57 @@ class request_data:
                             gene, "/mane/all/", reference_genome])
 
     # Method that makes the call to the API using the get method
-    def request_data(self):
+    def get_response(self):
         return requests.get(self.base_url + self.url, 
                             headers={"Content-Type": "application/json"})
+    
+    def save_bed_file(self, response, args):
+
+        output_file = f"output/{args.gene}_{args.reference_genome}.bed"
+        transcript = response.json()
+        print(transcript)
+
+        chromosome = transcript[0]["transcripts"][0]["annotations"]\
+            ["chromosome"]
+        gene_symbol = transcript[0]["current_symbol"]
+        hgnc = transcript[0]["hgnc"]
+
+        with open(output_file, "a") as file:
+            sys.stdout = file
+            for genomic_span_key, genomic_span_value in transcript[0]\
+                ["transcripts"][0]["genomic_spans"].items():
+                for exon in genomic_span_value["exon_structure"]:
+                    exon_number = exon["exon_number"]
+                    start = exon["genomic_start"]
+                    end = exon["genomic_end"]
+
+                    print('\t'.join([
+                        str(args.reference_genome),
+                        "chr" + str(chromosome),
+                        str(gene_symbol),
+                        str(hgnc),
+                        str(exon_number),
+                        # vv  includes 30 bases upstream of exon start
+                        str(start - 30),
+                        # vv  includes 10 bases downstream of exon end
+                        str(end + 10)
+                        ]))
+            sys.stdout = sys.__stdout__
+
 
 def main():
     # Get command line arguments
     args = cli_obj(sys.argv[1:]).args
 
     # Create an instance of request_data
-    my_requests = request_data(args.gene, args.reference_genome)
+    request_obj = request_data(args.gene, args.reference_genome)
+    response = request_obj.get_response()
+
 
     if args.bed_file:  # Check if the -b flag is present to create bed file
+         request_obj.save_bed_file(response, args)
         
-        output_file = f"output/{args.gene}+{args.reference_genome}.bed"
-        # Open a new .bed file for each search in append mode (-a)
-        # 'with' automatically closes the file after writing
-        with open(output_file, "a") as file:
-        
-            # Redirect the standard output to the .bed file
-            sys.stdout = file
 
-            # Make the API requestss
-            response = my_requests.request_data()
-
-            # Check the response status code
-            if response.status_code == 200:
-                
-            # Print exon information
-                transcripts = response.json()
-
-                for transcript in transcripts:
-                    chromosome = transcript["transcripts"][0]["annotations"]\
-                        ["chromosome"]
-                    gene_symbol = transcript["current_symbol"]
-                    hgnc = transcript["hgnc"]
-
-                for genomic_span_key, genomic_span_value in transcript\
-                    ["transcripts"][0]["genomic_spans"].items():
-                    for exon in genomic_span_value["exon_structure"]:
-                        exon_number = exon["exon_number"]
-                        start = exon["genomic_start"]
-                        end = exon["genomic_end"]
-
-                        print('\t'.join([
-                            str(args.reference_genome),
-                            "chr" + str(chromosome),
-                            str(gene_symbol),
-                            str(hgnc),
-                            str(exon_number),
-                            # vv  includes 30 bases upstream of exon start
-                            str(start - 30),
-                            # vv  includes 10 bases downstream of exon end
-                            str(end + 10)
-                            ]))
-
-            else:
-                print("VariantValidator API request failed with status code:", 
-                      response.status_code)
-            
-            # Restore the standard output
-            sys.stdout = sys.__stdout__
 
 if __name__ == "__main__":
     main()
