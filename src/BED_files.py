@@ -23,18 +23,15 @@ class cli_obj():
         
         self.args = parser.parse_args(sys_args)
 
-# Create class for requests
 class request_data():
 
     def __init__(self, gene, reference_genome):
         self.gene = gene
         self.ref_genome = reference_genome
         self.base_url = "https://rest.variantvalidator.org/"
-        # Update the URL to include the correct version and endpoint
         self.url = "".join(["/VariantValidator/tools/gene2transcripts_v2/", 
                             gene, "/mane/all/", reference_genome])
 
-    # Method that makes the call to the API using the get method
     def get_response(self):
         return requests.get(self.base_url + self.url, 
                             headers={"Content-Type": "application/json"})
@@ -68,17 +65,14 @@ class request_data():
                     ]))
 
 
-
 def main():
-    # Get command line arguments
+
     args = cli_obj(sys.argv[1:]).args
 
-    # Create an instance of request_data
     request_obj = request_data(args.gene, args.reference_genome)
     response = request_obj.get_response()
 
-
-    if args.bed_file:  # Check if the -b flag is present to create bed file
+    if args.bed_file:
          request_obj.save_bed_file(response)
         
 
