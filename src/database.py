@@ -5,7 +5,7 @@ ngtd_db = sqlite3.connect('ngtd.db')
 cursor = ngtd_db.cursor()
 
 cursor.execute('''
-    CREATE TABLE IF NOT EXISTS patient_details (
+    CREATE TABLE IF NOT EXISTS patient (
         id INTEGER PRIMARY KEY,
         patient_id INTEGER,
         patient_name TEXT,
@@ -16,47 +16,52 @@ cursor.execute('''
 ''')
 
 cursor.execute('''
-    CREATE TABLE IF NOT EXISTS tests (
+    CREATE TABLE IF NOT EXISTS test (
         id INTEGER PRIMARY KEY,
-        test_id TEXT,
-        panelapp_id_number TEXT,
-        gms_signed_off TEXT,
-        gms_signed_off_version TEXT,
-        gms_signed_off_date TEXT
+        r_number TEXT,
+        panel_id INTEGER,
+        panel_version TEXT,
+        signoff_status TEXT,
+        bedfile_id TEXT,
+        FOREIGN KEY (bedfile_id) REFERENCES bedfile(id)
     )
 ''')
 
 cursor.execute('''
-    CREATE TABLE IF NOT EXISTS genes_list (
+    CREATE TABLE IF NOT EXISTS gene (
         id INTEGER PRIMARY KEY,
         symbol TEXT,
-        hgnc_id TEXT,
-        transcript TEXT,
-        chr TEXT,
-        start_coordinate TEXT,
-        end_coordinates TEXT
+        hgnc_id TEXT
     )
 ''')
 
 cursor.execute('''
-    CREATE TABLE IF NOT EXISTS patient_tests (
+    CREATE TABLE IF NOT EXISTS bedfile (
+        id INTEGER PRIMARY KEY,
+        file_path TEXT
+    )
+''')
+
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS patient2test (
         patient_id INTEGER,
         test_id TEXT,
-        reference_genome TEXT,
         PRIMARY KEY (patient_id, test_id),
-        FOREIGN KEY (patient_id) REFERENCES patient_details(id),
-        FOREIGN KEY (test_id) REFERENCES tests(id)
+        FOREIGN KEY (patient_id) REFERENCES patient(id),
+        FOREIGN KEY (test_id) REFERENCES test(id)
     )
 ''')
 
 cursor.execute('''
-    CREATE TABLE IF NOT EXISTS gene_tests (
-        test_id INTEGER,
+    CREATE TABLE IF NOT EXISTS test2gene (
+        test_id TEXT,
         gene_id TEXT,
         PRIMARY KEY (test_id, gene_id),
-        FOREIGN KEY (test_id) REFERENCES tests(id),
-        FOREIGN KEY (gene_id) REFERENCES genes_list(id)
+        FOREIGN KEY (test_id) REFERENCES test(id),
+        FOREIGN KEY (gene_id) REFERENCES gene(id)
     )
 ''')
 
 ngtd_db.commit()
+
+ngtd_db.close()
