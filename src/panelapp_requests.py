@@ -24,15 +24,17 @@ class MyRequests:
         prints the gene list to the terminal along with clinical indication
     """
 
-    def __init__(self, r_code):
+    def __init__(self, args):
+        self.r_code = args.r_number
+        self.create_bed = args.create_bed
         self.base_url = "https://panelapp.genomicsengland.co.uk/api/v1"
-        self.url = "".join(["/panels/", r_code])
+        self.url = "".join(["/panels/", self.r_code])
     
 
     def request_data(self):
         try:
             response = requests.get(
-                self.base_url + self.url, timeout=2, verify=True)
+                self.base_url + self.url, timeout=5, verify=True)
             response.raise_for_status()
         except requests.exceptions.HTTPError as errh:
             print('HTTP Error: R number is not associated with a gene panel '
@@ -76,11 +78,14 @@ class MyRequests:
         print("\nThis panel is", signoff)
         print("\nClinical Indication:", response.json()["name"])
         print(" ".join(
-            ["Genes included in the", r_code, 
+            ["Genes included in the", self.r_code, 
              "panel:", " ".join(gene_list)]))
 
     # Method that packages data in dictionary ready for database & checks if user is okay with non-GMS signed panels
-    def database_postage(self, response, r_code, bed):
+    def database_postage(self, response):
+        r_code = self.r_code
+        bed = self.create_bed
+
         # bed is a boolean variable for whether the user wants a bed or not 
         if bed:
             # Get gene symbols & HGNC IDs in lists as well as panel id for dictionary    

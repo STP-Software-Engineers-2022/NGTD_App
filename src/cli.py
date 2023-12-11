@@ -1,67 +1,87 @@
-'''############################################################################
+'''
 Command Line Interface
-############################################################################'''
+'''
 
 import argparse
+import sys
 
-class cli_obj():
+class cli_args():
 
     def __init__(self, sys_args):
-        parser = argparse.ArgumentParser(description='')
+        parser = argparse.ArgumentParser()
+
         parser.add_argument(
-            "--subproc", action='store_true', 
-            help="Please select the program requirements."
+            "-g", "--gene_list", action="store_true", 
+            help="Return a list of gene from a gene panel for a given \
+                R number"
         )
         parser.add_argument(
-            '-g', '--get_doc', required = False, \
-            action='store_true',
-            help='Download the National Genomic Test Directory document.')
-        subparsers = parser.add_subparsers()
+            "-b", "--create_bed", action="store_true",
+            help="Generate a bed file for a given gene list"
+        )
+        parser.add_argument(
+            "-r", "--r_number",
+            help="Provide the R number from the Genomic Test Directory that \
+                you wish to enquire about"
+        )
+        parser.add_argument(
+            "-d", "--download_directory", nargs="?", const="docs/", 
+            default=None,
+            help="Download the latest national test directory and save. \
+                Please input an output location, default output to docs \
+                directory"
+        )
 
-        # Return gene list function
-        parser_gene_list = subparsers.add_parser(
-            'gene_list', help='Provide a valid R number from the National '
-            'Genomic Test directory and have a list of gene sassociated with '
-            'the gene panel returned.'
-            )
-        parser_gene_list.add_argument(
-            '-r', '--r_number', required = True, 
-            help = 'Provide the R number \
-                from the National Genomic Test Directory.')
-        
-        # Create BED file function
-        parser_create_bed = subparsers.add_parser(
-            'create_bed', help='Create a BED file from a given gene and '
-            'reference genome'
-            )
-        parser_create_bed.add_argument(
-            '-g', '--gene',
-            help = 'Name of the gene')
-        parser_create_bed.add_argument(
-            '-r', '--reference_genome',
-            help='')
-        parser_create_bed.add_argument(
-            '-o', '--output',
-            help='Specify the path for your output e.g. for test directory '
-                'document or bed file.')
-
-        
         self.args = parser.parse_args(sys_args)
+        self.ref_genome = None
+        self.__handle_options()
 
+    def __arg_selection(self):
+        selected = [False, False, False, False]
+        if (self.args.gene_list == True):
+            selected[0] = True
+        if (self.args.create_bed == True):
+            selected[1] = True
+        if (self.args.r_number is not None):
+            selected[2] = True
+        if (self.args.download_directory is not None):
+            selected[3] = True
+        return selected
 
-class cli_obj_from_bed():
+    def __handle_options(self):
+        selected_args = self.__arg_selection()
 
-    def __init__(self, sys_args):
-        parser = argparse.ArgumentParser(description='')
+        if selected_args[0] == True:
+            if selected_args[2] != True:
+                print("If gene_list is selected, an R number must be given",
+                      "with flag -r"
+                      )
+                sys.exit()
+        if selected_args[1] == True:
+            if selected_args[2] != True:
+                print("If bed file creation selected, an R number must be",
+                      " passed with flag -r"
+                      )
+                sys.exit()
+            else:
+                while True:
+                    ref_genome = input(" ".join(["For which reference genome",
+                                        "should the bed file be created?",
+                                        "[37/38]"])
+                                        )
+                    if ref_genome == "37":
+                        self.ref_genome = ["37"]
+                        break
+                    elif ref_genome == "38":
+                        self.ref_genome = ["38"]
+                        break
+                    else:
+                        print("Please enter 37 or 38")
+                        continue
 
-        parser.add_argument(
-            '-g', '--gene', required = True, 
-            help = 'Enter a gene name')
-        parser.add_argument(
-            '-r', '--reference_genome', required = True, 
-            help = 'GRCh37 or GRCh38?')
-        parser.add_argument(
-            '-b', '--bed_file', action='store_true', 
-            help = 'Generates a seperate bed file')
-        
-        self.args = parser.parse_args(sys_args)
+        if list(selected_args[i] for i in [0,1,3]) == [False, False, False]:
+            print("Error: Must select at least one of the following options:",
+                  "\"--gene_list\", \"--create_bed\", \"--download_directory\"")
+            sys.exit()
+
+        return True

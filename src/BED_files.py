@@ -1,80 +1,76 @@
-'''############################################################################
-BED file feature
-############################################################################'''
-
+'''
+Generate a bed file for a gene panel
+'''
+from config import log
 import requests
-import argparse
 import sys
 
-class cli_obj():
-
-    def __init__(self, sys_args):
-        parser = argparse.ArgumentParser(description='')
-
-        parser.add_argument(
-            '-g', '--gene', required = True, 
-            help = 'Enter a gene name')
-        parser.add_argument(
-            '-r', '--reference_genome', required = True, 
-            help = 'GRCh37 or GRCh38?')
-        parser.add_argument(
-            '-b', '--bed_file', action='store_true', 
-            help = 'Generates a seperate bed file')
-        
-        self.args = parser.parse_args(sys_args)
 
 class request_data():
 
-    def __init__(self, gene, reference_genome):
-        self.gene = gene
-        self.ref_genome = reference_genome
+    def __init__(self, ref_genome, panel_info):
+        self.panel_info = panel_info
+        self.gene_list = panel_info["genes"]
+        self.reference_genome = ref_genome
         self.base_url = "https://rest.variantvalidator.org/"
-        self.url = "".join(["/VariantValidator/tools/gene2transcripts_v2/", 
-                            gene, "/mane/all/", reference_genome])
+        self.gene_dict = self.__get_responses()
 
-    def get_response(self):
-        return requests.get(self.base_url + self.url, 
-                            headers={"Content-Type": "application/json"})
+
+    def __get_responses(self):
+        gene_dict = {}
+        for gene in self.gene_list:
+            url = f"/VariantValidator/tools/gene2transcripts_v2/\
+                    {gene}/mane/all/{self.reference_genome}"
+            try:
+                response = requests.get(self.base_url + url, 
+                                        headers={"Content-Type": 
+                                                "application/json"},
+                                        timeout=5
+                                        )
+                response.raise_for_status()
+            except requests.exceptions.HTTPError as errh:
+                print('HTTP Error: Variant Validator does not recognise url')
+                log.error(errh.args[0])
+                sys.exit(1)
+            except requests.exceptions.ReadTimeout as errt:
+                print("Error: Time out on Variant Validator API request")
+                log.error(errt.args[0])
+                sys.exit(1)
+            except requests.exceptions.ConnectionError as conerr:
+                print("Connection Error: No internet connection")
+                log.error(conerr.args[0])
+                sys.exit(1)
+            gene_dict["{}".format(gene)] = response.json()
+
+        return gene_dict
     
-    def save_bed_file(self, response):
-
-        output_file = f"output/{self.gene}_{self.ref_genome}.bed"
-        transcript = response.json()
-
-        chromosome = transcript[0]["transcripts"][0]["annotations"]\
-            ["chromosome"]
-        gene_symbol = transcript[0]["current_symbol"]
-        hgnc = transcript[0]["hgnc"]
-        transcript_id = transcript[0]["transcripts"][0]["reference"]
-
+    def create_bed_file(self):
+        r_number = self.panel_info["r_number"]
+        panel_version = self.panel_info["panel_version"]
+        refno = self.reference_genome[0]
+        output_file = f"output/{r_number}_GCRh{refno}_V{panel_version}.bed"
+        ref_seq = self.reference_genome[0]
         with open(output_file, "w") as file:
-            file.write(f"#GENE symbol: {gene_symbol}\n")
-            file.write(f"#HGNC synbol: {hgnc}\n")
-            file.write(f"#REFERENCE GENOME BUILD: {self.ref_genome}\n")
-            file.write(f"#TRANSCRIPT: {transcript_id}\n")
-            file.write(f"#CHROMO\t #EXON\t #START\t #END\n")
+            file.write(f"#REFERENCE GENOME BUILD: GRCh{ref_seq}\n")
+            file.write("".join(["#GENE\t #SYMBOL\t #TRANSCRIPT\t #GENOMIC ",
+                                "SPAN\t #CHROMO\t #EXON\t #START\t #END\n"]))
+        for gene, transcript in self.gene_dict.items():
+            chromosome = transcript[0]["transcripts"][0]["annotations"]\
+            ["chromosome"]
+            gene_symbol = transcript[0]["current_symbol"]
+            hgnc = transcript[0]["hgnc"]
+            transcript_id = transcript[0]["transcripts"][0]["reference"]
 
-            for genomic_span_key, genomic_span_value in transcript[0]\
-                ["transcripts"][0]["genomic_spans"].items():
-                for exon in genomic_span_value["exon_structure"]:
-                    exon_number = exon["exon_number"]
-                    start = exon["genomic_start"]
-                    end = exon["genomic_end"]
-                    file.write('\t'.join(["chr" + str(chromosome),
-                        str(exon_number), str(start - 30), str(end + 10), "\n"
-                    ]))
-
-
-def main():
-
-    args = cli_obj(sys.argv[1:]).args
-
-    request_obj = request_data(args.gene, args.reference_genome)
-    response = request_obj.get_response()
-
-    if args.bed_file:
-         request_obj.save_bed_file(response)
-        
-
-if __name__ == "__main__":
-    main()
+            with open(output_file, "a") as file:
+                for genomic_span_key, genomic_span_value in transcript[0]\
+                    ["transcripts"][0]["genomic_spans"].items():
+                    for exon in genomic_span_value["exon_structure"]:
+                        exon_number = exon["exon_number"]
+                        start = int(exon["genomic_start"])-30
+                        end = int(exon["genomic_end"])+10
+                        file.write('\t'.join([gene_symbol, hgnc, transcript_id,
+                                              genomic_span_key,
+                                            "chr" + str(chromosome), 
+                                            str(exon_number), str(start), 
+                                            str(end), "\n"
+                ]))
