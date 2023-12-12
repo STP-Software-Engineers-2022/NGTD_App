@@ -6,6 +6,7 @@ import sys
 import src.cli as cli
 import src.panelapp_requests as pan
 import src.get_directory as get_dir
+import src.data_import as data_import
 from config import log
 
 def main(argv=None):
@@ -26,7 +27,13 @@ def main(argv=None):
     my_requests.print_info(response, r_code, gene_list, signoff)
 
     # Prepare data for database deposition
-    my_requests.database_postage(response, r_code, bed)
+    panel_data = my_requests.database_postage(response, r_code, bed)
+
+    # Import data into database
+    if panel_data:
+        data_import.main(panel_data)
+    else:
+        print("No panel data added to database.")
 
     ngtd_dir = get_dir.get_directory()
     ngtd_dir.download_doc(get_doc, output)

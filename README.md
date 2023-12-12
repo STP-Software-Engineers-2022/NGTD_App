@@ -46,6 +46,22 @@ Script currently in development. Currently run via:
 python main.py -r [arg]
 ```
 
+## Database
+*For development*
+1. If required, an empty database be re-created by running the database.py script from the NGTD_App directory.
+```
+python3 src/database.py
+```
+
+2. Panel/test information will be stored in the database when using the following command:
+```
+python3 main.py -r <R code> -b
+```
+
+TODO: add functionality to add bed file into database as well
+TODO2: add logs
+
+
 ## Testing
 ```
 pytest

@@ -23,6 +23,7 @@ cursor.execute('''
         panel_version TEXT,
         signoff_status TEXT,
         bedfile_id TEXT,
+        date_added TEXT,
         FOREIGN KEY (bedfile_id) REFERENCES bedfile(id)
     )
 ''')
