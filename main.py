@@ -2,10 +2,10 @@
 Workflow manager for running program
 '''
 import sys
-import src.cli as cli
+import src.command_line_interface as cli
 import src.panelapp_requests as pan
 import src.get_directory as get_dir
-import src.BED_files as bed
+import src.create_beds as bed
 from config import log
 
 def main(argv=None):
@@ -25,10 +25,12 @@ def main(argv=None):
     my_requests.print_info(response, args, gene_list, signoff)
 
     # Prepare data for database deposition
-    panel_info = my_requests.database_postage(response)
+    if args.create_bed:
+        panel_info = my_requests.database_postage(response)
 
-    gene_panel_transcripts = bed.request_data(parsed.ref_genome, panel_info)
-    gene_panel_transcripts.create_bed_file()
+        gene_panel_transcripts = bed.RequestBedData(
+            parsed.ref_genome, panel_info)
+        gene_panel_transcripts.create_bed_file()
 
     return True
 

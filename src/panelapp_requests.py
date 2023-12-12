@@ -1,4 +1,8 @@
-""" Makes a request for a gene list from a given R number"""
+""" 
+Makes a request for a gene list from a given R numbe
+Authors: D. Ajayi, N. Gallop
+Last updated: NG - 12/12/23
+"""
 import requests
 import sys
 from config import log

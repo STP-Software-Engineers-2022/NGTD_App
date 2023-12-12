@@ -1,12 +1,30 @@
-'''
+"""
 Command Line Interface
-'''
+Author: N. Gallop
+Last updated: NG - 12/12/23
+"""
 
 import argparse
 import sys
 
-class cli_args():
-
+class CommandLineInterface:
+    """
+    Attributes
+    __________
+    args : Namespace
+        Arguments parsed from sys args.
+    ref_genome : str
+        Reference genome if required based on argument selection.
+    
+    Methods
+    _______
+    __arg_selection()
+        Creates a list positionally relational to argument options to help
+        with handling the options.
+    __handle_options()
+        Uses arg_selection boolean list to handle argument conflicts, lacking
+        arg information or to ask the user to more information.
+    """
     def __init__(self, sys_args):
         parser = argparse.ArgumentParser()
 
