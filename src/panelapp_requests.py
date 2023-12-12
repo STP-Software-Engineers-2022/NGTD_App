@@ -13,6 +13,10 @@ class MyRequests:
     
     Attributes
     __________
+    r_code
+        The R number given by user parsed from sys args
+    create_bed
+        The boolean value given by user from sys args
     base_url : str
         a static base URL to be appended to in later requests
     url : str

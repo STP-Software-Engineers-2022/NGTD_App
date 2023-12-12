@@ -11,7 +11,7 @@ from config import log
 def main(argv=None):
     
     # initialise cli object
-    parsed = cli.cli_args(sys.argv[1:])
+    parsed = cli.CommandLineInterface(sys.argv[1:])
     args = parsed.args
     if args.download_directory is not None:
         ngtd_dir = get_dir.get_directory(args)
