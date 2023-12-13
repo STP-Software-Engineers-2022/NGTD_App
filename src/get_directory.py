@@ -74,4 +74,11 @@ class get_directory:
                 print(f"An unexpected error occurred: {e}")
                 log.error(e)
                 sys.exit(1)
-                
+            except ValueError as verr:
+                print(f"Invalid URL: {verr}")
+                log.error(verr)
+                sys.exit(1)
+        if not get_doc:
+            sys.exit(1)
+        if not url:
+            sys.exit(1)
