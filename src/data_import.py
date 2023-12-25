@@ -1,7 +1,11 @@
+# Script to import panel information and bed file into database
+# Created by Caroline Riehl
+# Last updated 25-Dec-2023
+
 import sqlite3
 from datetime import datetime
 
-def main(panel_data):
+def main(panel_data, bed_file_link):
     """
     MAIN METHOD
 
@@ -19,6 +23,7 @@ def main(panel_data):
         'genes': list of strings,
         'hgnc_id': list of strings
       }
+    - bed_file_link (str): a string that represents the file path of the generated bed file
 
     Returns:
     - None
@@ -29,8 +34,9 @@ def main(panel_data):
     cursor = ngtd_db.cursor()
 
     # Add test/pannel to the database if it doesn't already exist with the same version
-    if does_test_version_exist(cursor, panel_data) != True:
-        test_info_into_database(panel_data, cursor, ngtd_db)
+    if does_data_entry_exist(cursor, panel_data, bed_file_link) != True:
+        test_info_into_database(panel_data, bed_file_link, cursor, ngtd_db)
+        print('\nPanel information and associated bed file added to the database successfully!') 
 
     # Commit the changes
     ngtd_db.commit()
@@ -39,7 +45,7 @@ def main(panel_data):
     cursor.close()
     ngtd_db.close()
 
-def does_test_version_exist(cursor, panel_data):
+def does_data_entry_exist(cursor, panel_data, bed_file_link):
     """Checks whether the same test (including the version) has already been added to the database"""
 
     # Query database for the requested test's version
@@ -54,37 +60,66 @@ def does_test_version_exist(cursor, panel_data):
 
     # Checks whether previous query found a record of the test in the database
     if r_number:
-        print('This panel is already saved in the database', end = ' ')
+        print('\nThis panel is already saved in the database', end = ' ')
 
         # Checks if the test's version record is the same as the requested test
         if r_number[0] == panel_data['panel_version']:
-            print('under the same version and will therefore not be added again to prevent duplications.')
-            return True
+            print('under the same version', end = ' ')
+
+            cursor.execute('''
+                SELECT bedfile.id
+                FROM bedfile
+                WHERE bedfile.file_path = (?)
+            ''', (bed_file_link,))
+
+            bedfile_pk = cursor.fetchone() 
+
+            # Checks if the test's bed file was generated for the same reference genome build as previously recorded
+            if bedfile_pk is not None:
+                print('and the same reference genome build. This data entry will therefore not be added again to prevent duplications.')
+                return True
+            else: 
+                print('but under a different reference genome build. This panel with the new reference build will therefore be added to the database.')
+
         else:
             print('but under a different version. The information of this newer version will therefore be added to the database.')
             return False
     else:
-        print('This panel has not been saved in the database yet. Panel information import to the database to proceed.')
+        print('\nThis panel has not been saved in the database yet. Panel information import to the database to proceed.')
         return False
 
 
-def test_info_into_database(panel_data, cursor, ngtd_db):
+def test_info_into_database(panel_data, bed_file_link, cursor, ngtd_db):
     """Adds the panel information to the database"""
 
-    test_id = panel_into_test_table(panel_data, cursor, ngtd_db)
+    bedfile_id = bed_file_link_into_bed_table(bed_file_link, cursor, ngtd_db)
+    test_id = panel_into_test_table(panel_data, bedfile_id, cursor, ngtd_db)
     genes_into_gene_table(panel_data, test_id, cursor, ngtd_db)
 
 
-def panel_into_test_table(panel_data, cursor, ngtd_db):
+def bed_file_link_into_bed_table(bed_file_link, cursor, ngtd_db):
+    """Adds the link to the bed file into the 'bedfile' table"""
+
+    cursor.execute('''
+        INSERT INTO bedfile (file_path)
+        VALUES (?)
+    ''', (bed_file_link,))
+    
+    # Get the last inserted ID (at this point from table 'bedfile')
+    bedfile_id = cursor.lastrowid
+
+    return bedfile_id
+
+def panel_into_test_table(panel_data, bedfile_id, cursor, ngtd_db):
     """Adds panel information to 'test' table"""
 
     current_date = datetime.now().strftime('%d-%b-%Y') # dd-mmm-yyyy format (e.g. 01-Apr-2023)
 
     # Insert data into Table 'test'
     cursor.execute('''
-        INSERT INTO test (r_number, panel_id, panel_version, signoff_status, date_added)
-        VALUES (?, ?, ?, ?, ?)
-    ''', (panel_data['r_number'], panel_data['panel_id'], panel_data['panel_version'], panel_data['signoff_status'], current_date))
+        INSERT INTO test (r_number, panel_id, panel_version, signoff_status, bedfile_id, date_added)
+        VALUES (?, ?, ?, ?, ?, ?)
+    ''', (panel_data['r_number'], panel_data['panel_id'], panel_data['panel_version'], panel_data['signoff_status'], bedfile_id, current_date))
 
     # Get the last inserted ID (at this point from table 'test')
     test_id = cursor.lastrowid

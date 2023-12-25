@@ -40,26 +40,28 @@ pip install -r requirements.txt
 ```
 
 ## Run Script
-Script currently in development. Currently run via:
+Script currently in development. 
+Currently run as follows. [arg] is a valid R number from National Genomic Test Directory
 ```
-# [arg] is a valid R number from National Genomic Test Directory
-python main.py -r [arg]
+# 1. For list of genes relating to a panel to be printed on the command line:
+python3 main.py -g -r [arg]
 ```
+```
+# 2. For the panel information (panel, genes list) and the bed file to be added to the database:
+python3 main.py -g -r [arg] -b
+# Input when prompted the version of the reference genome for which to create the bed file.
+```
+
 
 ## Database
 *For development*
-1. If required, an empty database be re-created by running the database.py script from the NGTD_App directory.
+If required, an empty database can be re-created by running the database.py script from the NGTD_App directory. Make sure to delete the database first.
 ```
 python3 src/database.py
 ```
 
-2. Panel/test information will be stored in the database when using the following command:
-```
-python3 main.py -r <R code> -b
-```
-
-TODO: add functionality to add bed file into database as well
-TODO2: add logs
+TODO: add logs
+TODO2: add unit tests
 
 
 ## Testing
