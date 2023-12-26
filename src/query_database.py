@@ -1,3 +1,7 @@
+# Script to querry patient information from database
+# Created by Caroline Riehl
+# Last updated 25-Dec-2023
+
 import sqlite3
 
 ngtd_db = sqlite3.connect('ngtd.db')
