@@ -2,8 +2,8 @@
 # README.md
 ## NGTD_App as part of STP Software Engineering Module
 ###### Date created: 2023-11-07
-###### Date modified: 2023-11-07
-###### Authors: danniscales, DolapoA, NGallop
+###### Date modified: 2023-11-14
+###### Authors: Dolapo Ajayi, Niall Gallop, Caroline Riehl, Danni Scales
 
 ## Overview
 A tool to manage gene panels for NHS National genomic test directory tests in the laboratory
@@ -22,12 +22,17 @@ A tool to manage gene panels for NHS National genomic test directory tests in th
 
 4. Build a repository of which tests, gene panels, BED files, reference sequences and version which have been applied to each patient case so that the laboratory has an accurate record of how analyses were performed.
 
-### Trello Board
-https://trello.com/b/YM0xnSCm/stp-software-engineers-2022
+## Gitflow
+### Generic Gitflow
+![Alt text](docs/generic_gitflow.png?raw=true)
+
+### Our Gitflow
+Updated: 10/11/2023
+![Alt text](docs/project_gitflow.png?raw=true)
 
 ## Download Details and Conda Env Creation
 ```
-git clone "https://github.com/STP-Software-Engineers-2022/NGTD_App.git"
+git clone https://github.com/STP-Software-Engineers-2022/NGTD_App.git
 cd NGTD_App
 conda env create -f environment.yml
 conda activate ngtd
@@ -38,10 +43,10 @@ pip install -r requirements.txt
 Script currently in development. Currently run via:
 ```
 # [arg] is a valid R number from National Genomic Test Directory
-python main.py [arg]
+python main.py -r [arg]
 ```
 
 ## Testing
 ```
-pytest test/
+pytest
 ```
