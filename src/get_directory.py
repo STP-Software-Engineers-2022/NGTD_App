@@ -21,24 +21,27 @@ class get_directory():
         html = page.read().decode("utf-8")
 
         # Create regular expressions to find document version
-        pattern = ("The National genomic test directory.*rare "
+        version_pattern = ("The National genomic test directory.*rare "
         "and inherited disorders.*</p>\n<p>Version.*</p>")
-        pattern_two = "<.*?>.*<.*?>"
-        match_results = re.search(pattern, html, re.IGNORECASE)
-        match_results_two = re.search(pattern_two, match_results[0], re.IGNORECASE)
-        doc_version = re.sub("^<.*?>|</.*?>", "", match_results_two[0])
+        html_tag_pattern = "<.*?>.*<.*?>"
+        match_version_results = re.search(version_pattern, html, re.IGNORECASE)
+        match_html_tag_results = re.search(html_tag_pattern, match_version_results[0], re.IGNORECASE)
+        doc_version = re.sub("^<.*?>|</.*?>", "", match_html_tag_results[0])
         doc_version = doc_version.split(" ") # remove unnecessary text
         print("Downloaded Test Directory", doc_version[0], doc_version[1])
 
         # Create regex to download NGTD document
-        pattern_three = ("<a href=.*Rare-and-inherited-disease-"
+        excel_download_pattern = ("<a href=.*Rare-and-inherited-disease-"
         "national-genomic-test-directory-version.*xlsx")
-        match_results_three = re.search(pattern_three, html, re.IGNORECASE)
+        match_results_three = re.search(excel_download_pattern, html, re.IGNORECASE)
         doc_url = re.sub("<a href=\"", "", match_results_three[0])
         doc_file = doc_url.split("/")
         doc_request = requests.get(doc_url, allow_redirects = True)
-
-        output = os.path.realpath(self.output)
-        output = "".join([output,"/", doc_file[7]])
-        open(output, "wb").write(doc_request.content)
-        print("It can be found in:", output)
+        if output:
+            output = os.path.realpath(output)
+            output = "".join([output,"/", doc_file[7]])
+            open(output, "wb").write(doc_request.content)
+            print("It can be found in:", output)
+        else:
+            open(doc_file[7], "wb").write(doc_request.content)
+            print("in current directory:", os.path.realpath("."))
