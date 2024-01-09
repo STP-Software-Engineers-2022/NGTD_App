@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ngtd_app"
-version = "2024.01.01"
+version = "1.0"
 dependencies = [ # taken from requirements.txt
   "pytest==7.4.2",
   "argparse==1.4.0",
