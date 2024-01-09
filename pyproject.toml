@@ -3,19 +3,15 @@
 requires = ["setuptools", "wheel"]  # PEP 508 specifications.
 build-backend = "setuptools.build_meta"
 
-# Ignore flat-layout.
-[tool.setuptools]
-py-modules = []
-
 [project]
 name = "ngtd_app"
-dynamic = ["version"]
+version = "2024.01.01"
 dependencies = [ # taken from requirements.txt
   "pytest==7.4.2",
   "argparse==1.4.0",
   "requests==2.31.0"
 ]
-requires-python = ">=3.12"
+requires-python = ">=3.9"
 authors = [
   {name = "Dolapo Ajayi", email = "dolapo.ajayi@icr.ac.uk"},
   {name = "Niall Gallop", email = "niall.gallop1@nhs.net"},
