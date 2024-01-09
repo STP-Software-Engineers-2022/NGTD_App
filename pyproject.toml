@@ -1,3 +1,12 @@
+[build-system]
+# Minimum requirements for the build system to execute.
+requires = ["setuptools", "wheel"]  # PEP 508 specifications.
+build-backend = "setuptools.build_meta"
+
+# Ignore flat-layout.
+[tool.setuptools]
+py-modules = []
+
 [project]
 name = "ngtd_app"
 dynamic = ["version"]
@@ -21,7 +30,11 @@ maintainers = [
 ]
 description = "A tool to manage gene panels for NHS National genomic test directory tests in the laboratory"
 readme = "README.md"
-keywords = ["gene", "gene panel", "genomic test", "national genomic test directory", "NGTD"]
+keywords = ["gene",
+            "gene panel",
+            "genomic test",
+            "national genomic test directory",
+            "NGTD"]
 classifiers = [
   # How mature is this project? Common values are
   #   3 - Alpha
