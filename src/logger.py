@@ -36,8 +36,7 @@ class Logger:
 
         # Configures the log string format
         formatter = logging.Formatter(
-            '%(name)-6s %(asctime)s %(levelname)-6s '
-            'thread:%(thread)-8d - %(message)s'
+            '%(name)-6s %(asctime)s %(levelname)-6s - %(message)s'
         )
         fh.setFormatter(formatter)
 
