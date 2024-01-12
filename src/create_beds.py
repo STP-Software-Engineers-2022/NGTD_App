@@ -76,7 +76,7 @@ class RequestBedData:
     def create_bed_file(self):
         # Create output bed file name from identifying factors
         # output_dir to change from being hardcoded
-        output_dir = "output/"
+        output_dir = "bed_repository/"
         r_code = self.panel_info["r_number"]
         panel_version = self.panel_info["panel_version"]
         refno = self.reference_genome[0]
