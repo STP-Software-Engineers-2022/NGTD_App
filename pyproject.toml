@@ -6,11 +6,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ngtd_app"
 version = "1.0"
-dependencies = [ # taken from requirements.txt
-  "pytest==7.4.2",
-  "argparse==1.4.0",
-  "requests==2.31.0"
-]
+dependencies = []
 requires-python = ">=3.9"
 authors = [
   {name = "Dolapo Ajayi", email = "dolapo.ajayi@icr.ac.uk"},
