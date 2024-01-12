@@ -103,3 +103,4 @@ class CommandLineInterface:
             sys.exit()
 
         return True
+        

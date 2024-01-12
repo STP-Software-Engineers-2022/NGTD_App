@@ -1,6 +1,6 @@
-'''
+"""
 Workflow manager for running program
-'''
+"""
 import sys
 import src.command_line_interface as cli
 import src.panelapp_requests as pan
@@ -32,16 +32,19 @@ def main(argv=None):
             parsed.ref_genome, panel_info)
         bed_file_link = gene_panel_transcripts.create_bed_file()
 
-        # Import panel information (test and genes) and bed file into database
-        data_import.main(panel_info, bed_file_link)
+        # Import panel information and bed file path into database
+        data_import.import_into_database(panel_info, bed_file_link)
     
     else:
-        print("No panel information added to the database. Run with -b to add the data.")
+        print(
+            "No panel information added to the database. "
+            "Run with -b to add the data."
+            )
 
     return True
 
 if __name__ == "__main__":
     if main():
-        to_log = 'main.py ran successfully'
+        to_log = "main.py ran successfully"
         print(f"\nLogging: {to_log}")
         log.info(to_log)

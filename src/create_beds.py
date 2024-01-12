@@ -1,8 +1,8 @@
-'''
+"""
 Generate a bed file for a gene panel
 Authors: D. Scales, N. Gallop
 Last updated: NG - 12/12/23
-'''
+"""
 from config import log
 import requests
 import sys
@@ -56,7 +56,7 @@ class RequestBedData:
                                         )
                 response.raise_for_status()
             except requests.exceptions.HTTPError as errh:
-                print('HTTP Error: Variant Validator does not recognise url')
+                print("HTTP Error: Variant Validator does not recognise url")
                 log.error(errh.args[0])
                 sys.exit(1)
             except requests.exceptions.ReadTimeout as errt:
@@ -104,7 +104,7 @@ class RequestBedData:
                         exon_number = exon["exon_number"]
                         start = int(exon["genomic_start"])-30
                         end = int(exon["genomic_end"])+10
-                        file.write('\t'.join([gene_symbol, hgnc, transcript_id,
+                        file.write("\t".join([gene_symbol, hgnc, transcript_id,
                                               genomic_span_key,
                                             "chr" + str(chromosome), 
                                             str(exon_number), str(start), 
