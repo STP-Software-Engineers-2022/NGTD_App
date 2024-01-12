@@ -1,7 +1,0 @@
-NGTD_APP 2024-01-11 16:50:39,151 ERROR  thread:7989207168 - 404 Client Error: Not Found for url: https://panelapp.genomicsengland.co.uk/api/v1/panels/R428/
-NGTD_APP 2024-01-11 16:51:10,779 ERROR  thread:7989207168 - 404 Client Error: Not Found for url: https://panelapp.genomicsengland.co.uk/api/v1/panels/R314/
-NGTD_APP 2024-01-11 16:51:36,551 INFO   thread:7989207168 - main.py ran successfully
-NGTD_APP 2024-01-11 16:51:47,521 INFO   thread:7989207168 - main.py ran successfully
-NGTD_APP 2024-01-11 16:52:07,535 ERROR  thread:7989207168 - 404 Client Error: Not Found for url: https://panelapp.genomicsengland.co.uk/api/v1/panels/R314/
-NGTD_APP 2024-01-11 18:54:02,696 ERROR  - 404 Client Error: Not Found for url: https://panelapp.genomicsengland.co.uk/api/v1/panels/R314/
-NGTD_APP 2024-01-11 18:54:07,608 INFO   - main.py ran successfully
