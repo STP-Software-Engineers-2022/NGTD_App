@@ -2,16 +2,16 @@
 FROM python:3.9
 
 # Set the working directory to /app
-WORKDIR /app
+WORKDIR /NGTD_App
 
 # Copy the current directory contents into the container's /app directory
-COPY . /app
+COPY . /NGTD_App
 
 # Create logging directory
 RUN mkdir /usr/local/share/logs
 
 # Mount the current host directory to the container's /app directory
-VOLUME /app
+VOLUME /NGTD_App
 
 # Update apt-get
 RUN apt-get update
@@ -23,7 +23,7 @@ RUN apt-get -y install git
 RUN pip install --upgrade pip
 
 # Uncomment the line below to install dependencies from requirements.txt
-# RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt
 
 # Uncomment the line below if a build file (pyproject.toml) is available
 RUN pip install .
@@ -34,4 +34,4 @@ RUN pip install .
 ENTRYPOINT []
 
 # Start the container by running a specific Python script. The "tail", "-f", "/dev/null" command allows the container to keep running in detached mode untill it it killed manually
-CMD ["tall", "-f", "/dev/null"]
+CMD ["python", "main.py"]
