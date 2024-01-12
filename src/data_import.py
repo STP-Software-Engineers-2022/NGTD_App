@@ -7,7 +7,7 @@ from datetime import datetime
 
 def import_into_database(panel_data, bed_file_link):
     """
-    Method to imports data to database
+    Method to import data to database
 
     This public function takes an output of NGTD_App/main.py, panel_data, 
     to upload the user requested panel appropriately  
@@ -38,7 +38,7 @@ def import_into_database(panel_data, bed_file_link):
 
     # Add test to the database if not already present with the same version
     if does_data_entry_exist(cursor, panel_data, bed_file_link) != True:
-        test_info_into_database(panel_data, bed_file_link, cursor, ngtd_db)
+        test_info_into_database(panel_data, bed_file_link, cursor)
         print(
             f"\nPanel information and associated bed file path "
             "({bed_file_link}) added to the database successfully!"
@@ -110,15 +110,15 @@ def does_data_entry_exist(cursor, panel_data, bed_file_link):
         return False
 
 
-def test_info_into_database(panel_data, bed_file_link, cursor, ngtd_db):
+def test_info_into_database(panel_data, bed_file_link, cursor):
     """Adds the panel information to the database"""
 
-    bedfile_id = bed_file_link_into_bed_table(bed_file_link, cursor, ngtd_db)
-    test_id = panel_into_test_table(panel_data, bedfile_id, cursor, ngtd_db)
-    genes_into_gene_table(panel_data, test_id, cursor, ngtd_db)
+    bedfile_id = bed_file_link_into_bed_table(bed_file_link, cursor)
+    test_id = panel_into_test_table(panel_data, bedfile_id, cursor)
+    genes_into_gene_table(panel_data, test_id, cursor)
 
 
-def bed_file_link_into_bed_table(bed_file_link, cursor, ngtd_db):
+def bed_file_link_into_bed_table(bed_file_link, cursor):
     """Adds the link to the bed file into the "bedfile" table"""
 
     cursor.execute("""
@@ -131,7 +131,7 @@ def bed_file_link_into_bed_table(bed_file_link, cursor, ngtd_db):
 
     return bedfile_id
 
-def panel_into_test_table(panel_data, bedfile_id, cursor, ngtd_db):
+def panel_into_test_table(panel_data, bedfile_id, cursor):
     """Adds panel information to "test" table"""
 
     # dd-mmm-yyyy format (e.g. 01-Apr-2023)
@@ -162,7 +162,7 @@ def panel_into_test_table(panel_data, bedfile_id, cursor, ngtd_db):
 
     return test_id
 
-def genes_into_gene_table(panel_data, test_id, cursor, ngtd_db):
+def genes_into_gene_table(panel_data, test_id, cursor):
     """Adds gene information to "gene" table"""
 
     # Insert genes into table "gene"
