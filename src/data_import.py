@@ -7,12 +7,12 @@ from datetime import datetime
 
 def import_into_database(panel_data, bed_file_link):
     """
-    MAIN METHOD
+    Method to imports data to database
 
     This public function takes an output of NGTD_App/main.py, panel_data, 
     to upload the user requested panel appropriately  
 
-    Argument:
+    Parameters:
     - panel_data (dict): A dictionary containing panel information to be 
     stored in the database
 
