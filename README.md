@@ -23,10 +23,8 @@ A tool to manage gene panels for NHS National genomic test directory tests in th
 4. Build a repository of which tests, gene panels, BED files, reference sequences and version which have been applied to each patient case so that the laboratory has an accurate record of how analyses were performed.
 
 ## Gitflow
-### Generic Gitflow
-![Alt text](docs/generic_gitflow.png?raw=true)
 
-### Our Gitflow
+### Early Gitflow
 Updated: 10/11/2023
 ![Alt text](docs/project_gitflow.png?raw=true)
 
@@ -50,7 +48,7 @@ python main.py [ARGS]
 ```
 
 #### To download and run from container:
-Docker must be intalled to to this program via a container. Docker must be open in the background to build and activate the container. Download instructions for Docker can be found here: https://www.docker.com/products/docker-desktop/
+Docker must be installed to to this program via a container. Docker must be open in the background to build and activate the container. Download instructions for Docker can be found here: https://www.docker.com/products/docker-desktop/
 
 Download:
 ```
@@ -60,8 +58,8 @@ cd NGTD_App
 
 Build and run program from container:
 ```
-docker build -t ngtd_container .
-docker run ngtd_container [ARGS]
+docker build -t ngtd .
+docker run ngtd [ARGS]
 ```
 
 #### Arguments
