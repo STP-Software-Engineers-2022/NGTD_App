@@ -1,5 +1,4 @@
-# State the base image
-FROM python:3.9
+FROM continuumio/miniconda3
 
 # Set the working directory to /app
 WORKDIR /NGTD_App
@@ -7,31 +6,14 @@ WORKDIR /NGTD_App
 # Copy the current directory contents into the container's /app directory
 COPY . /NGTD_App
 
-# Create logging directory
-RUN mkdir /usr/local/share/logs
+# Create conda environment using the environment.yml
+RUN conda env create -n ngtd --file environment.yml
 
-# Mount the current host directory to the container's /app directory
-VOLUME /NGTD_App
-
-# Update apt-get
-RUN apt-get update
-
-# Install git
-RUN apt-get -y install git
-
-# Upgrade pip
-RUN pip install --upgrade pip
-
-# Uncomment the line below to install dependencies from requirements.txt
+# Install dependencies from requirements.txt
 RUN pip install -r requirements.txt
 
-# Uncomment the line below if a build file (pyproject.toml) is available
+# Does this build the toml?
 RUN pip install .
 
-# Define the entrypoint as an empty command
-# This allows for flexibility in specifying the command when running the container.
-# You can override this by providing a command when running the container with 'docker run'.
-ENTRYPOINT []
-
-# Start the container by running a specific Python script. The "tail", "-f", "/dev/null" command allows the container to keep running in detached mode untill it it killed manually
-CMD ["python", "main.py"]
+# Define the entrypoint 
+ENTRYPOINT ["conda", "run", "-n", "ngtd", "python", "main.py"]
