@@ -12,8 +12,5 @@ RUN conda env create -n ngtd --file environment.yml
 # Install dependencies from requirements.txt
 RUN pip install -r requirements.txt
 
-# Does this build the toml?
-RUN pip install .
-
 # Define the entrypoint 
 ENTRYPOINT ["conda", "run", "-n", "ngtd", "python", "main.py"]
