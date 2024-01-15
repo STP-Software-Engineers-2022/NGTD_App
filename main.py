@@ -1,10 +1,11 @@
-'''
+"""
 Workflow manager for running program
-'''
+"""
 import sys
 import src.command_line_interface as cli
 import src.panelapp_requests as pan
 import src.get_directory as get_dir
+import src.data_import as data_import
 import src.create_beds as bed
 from config import log
 
@@ -24,18 +25,26 @@ def main(argv=None):
     gene_list, signoff = my_requests.gene_list(response)
     my_requests.print_info(response, args, gene_list, signoff)
 
-    # Prepare data for database deposition
     if args.create_bed:
         panel_info = my_requests.database_postage(response)
 
         gene_panel_transcripts = bed.RequestBedData(
             parsed.ref_genome, panel_info)
-        gene_panel_transcripts.create_bed_file()
+        bed_file_link = gene_panel_transcripts.create_bed_file()
+
+        # Import panel information and bed file path into database
+        data_import.import_into_database(panel_info, bed_file_link)
+    
+    else:
+        print(
+            "No panel information added to the database. "
+            "Run with -b to add the data."
+            )
 
     return True
 
 if __name__ == "__main__":
     if main():
-        to_log = 'main.py ran successfully'
+        to_log = "main.py ran successfully"
         print(f"\nLogging: {to_log}")
         log.info(to_log)
