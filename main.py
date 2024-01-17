@@ -23,7 +23,9 @@ def main(argv=None):
     # Make the API request
     response = my_requests.request_data()
     gene_list, signoff = my_requests.gene_list(response)
-    my_requests.print_info(response, args, gene_list, signoff)
+    if args.gene_list:
+        my_requests.print_info(response, args, gene_list, signoff)
+        return
 
     if args.create_bed:
         panel_info = my_requests.database_postage(response)
