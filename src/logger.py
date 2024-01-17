@@ -1,7 +1,6 @@
 import os
 import logging
 from logging.handlers import TimedRotatingFileHandler
-from datetime import date
 
 
 class Logger:
@@ -45,3 +44,4 @@ class Logger:
 
     def get_logger(self):
         return self.logger
+      

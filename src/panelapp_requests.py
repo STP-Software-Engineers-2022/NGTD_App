@@ -42,12 +42,12 @@ class MyRequests:
     def request_data(self):
         try:
             response = requests.get(
-                self.base_url + self.url, timeout=5, verify=True)
+                self.base_url + self.url, timeout=20, verify=True)
             response.raise_for_status()
         except requests.exceptions.HTTPError as errh:
-            print('HTTP Error: R number is not associated with a gene panel '
-                  'or does not exist.\nPlease refer to Genomic Test Directory'
-                  ' for guidance.')
+            print("HTTP Error: R number is not associated with a gene panel "
+                  "or does not exist.\nPlease refer to Genomic Test Directory"
+                  " for guidance.")
             log.error(errh.args[0])
             sys.exit(1)
         except requests.exceptions.ReadTimeout as errt:
@@ -136,5 +136,5 @@ class MyRequests:
                 r_dict = {"r_number": r_code, "panel_id": panel_id, \
                     "panel_version": p_version, "signoff_status": signoff, \
                     "genes": g_list, "hgnc_id_list": h_list}
-                print(r_dict)
                 return r_dict
+                

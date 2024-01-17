@@ -1,8 +1,8 @@
-'''############################################################################
+"""###########################################################################
 Test Panel App Request Object
 Hits PanelApp API to return a list of genes for a gene panel from a given
 R number
-############################################################################'''
+###########################################################################"""
 
 import pytest
 import src.command_line_interface as cli
@@ -11,13 +11,13 @@ from config import log
 
 @pytest.fixture
 def args():
-    parser = cli.CommandLineInterface(['-g', '-r', 'R134'])
+    parser = cli.CommandLineInterface(["-g", "-r", "R134"])
     args = parser.args
     return args
 
 @pytest.fixture
 def bad_args():
-    parser = cli.CommandLineInterface(['-g', '-r', 'R428'])
+    parser = cli.CommandLineInterface(["-g", "-r", "R428"])
     args = parser.args
     return args
 
@@ -35,4 +35,4 @@ def test_gene_list(args):
     target = panelapp_requests.MyRequests(args)
     response = target.request_data()
     gene_list, signoff = target.gene_list(response)
-    assert gene_list == ['APOB', 'APOE', 'LDLR', 'LDLRAP1', 'PCSK9', 'GCKR']
+    assert gene_list == ["APOB", "APOE", "LDLR", "LDLRAP1", "PCSK9", "GCKR"]

@@ -1,2 +1,8 @@
 __pycache__
 .DS_Store
+output/*
+
+# cvrmu's test scripts for development
+src/test.py 
+src/query_database.py 
+
