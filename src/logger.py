@@ -1,40 +1,41 @@
 import os
 import logging
 from logging.handlers import TimedRotatingFileHandler
-from datetime import date
 
 
 class Logger:
 
-    def __init__(self, name, log_level, prefix="local-", log_dir="logs"):
-        """
-        Configures a daily logger
-        :param name: logger"s name
-        :param log_level: logger severity configuration
-        :param prefix: a prefix that will be added to the log file
+    def __init__(self, name, log_level, log_dir='logs'):
+        """Configures a daily logger
+        Parameters
+        __________
+            name : str
+                logger's name
+            log_level : str
+                logger severity configuration
+            log_dir : str
+                Directory where logs are stored
         """
 
-        # 1. Creates a logger using Python"s logging facility.
+        # Creates the logger
         self.logger = logging.getLogger(name)
 
-        # 2. Sets logger"s severity threshold.
+        # Sets logger's severity threshold.
         self.logger.setLevel(log_level)
 
-        # 3. Creates log name from prefix and suffix using today"s date
-        log_file_name = f"{prefix}{date.today()}.log"
+        # Sets log name 
+        log_file_name = f"NGTD.log"
 
-        # 4. Creates a daily log file and stores it at log_dir
-        # prepending a prefix.
+        # Creates a rotating log file that resets at midnight
         fh = TimedRotatingFileHandler(
             os.path.join(log_dir, log_file_name), 
-            when="midnight", 
+            when='midnight', 
             interval=1
         )
 
-        # 5. Configures the log string format
+        # Configures the log string format
         formatter = logging.Formatter(
-            "%(name)-6s %(asctime)s %(levelname)-6s "
-            "thread:%(thread)-8d - %(message)s"
+            '%(name)-6s %(asctime)s %(levelname)-6s - %(message)s'
         )
         fh.setFormatter(formatter)
 
@@ -43,3 +44,4 @@ class Logger:
 
     def get_logger(self):
         return self.logger
+      

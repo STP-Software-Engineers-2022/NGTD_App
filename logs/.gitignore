@@ -1,4 +1,2 @@
-# Ignore everything in this directory while developing logging feature
 *
-# Except this file
 !.gitignore
