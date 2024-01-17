@@ -6,6 +6,7 @@ Last updated: NG - 12/12/23
 
 import argparse
 import sys
+from config import log
 
 class CommandLineInterface:
     """
@@ -71,16 +72,18 @@ class CommandLineInterface:
 
         if selected_args[0] == True:
             if selected_args[2] != True:
-                print("If gene_list is selected, an R number must be given",
+                err = "If gene_list is selected, an R number must be given "\
                       "with flag -r"
-                      )
-                sys.exit()
+                print(err)
+                log.error(err)
+                sys.exit(err)
         if selected_args[1] == True:
             if selected_args[2] != True:
-                print("If bed file creation selected, an R number must be",
+                err = "If bed file creation selected, an R number must be"\
                       " passed with flag -r"
-                      )
-                sys.exit()
+                print(err)
+                log.error(err)
+                sys.exit(err)
             else:
                 while True:
                     ref_genome = input(" ".join(["For which reference genome",
@@ -98,9 +101,11 @@ class CommandLineInterface:
                         continue
 
         if list(selected_args[i] for i in [0,1,3]) == [False, False, False]:
-            print("Error: Must select at least one of the following options:",
-                  "\"--gene_list\", \"--create_bed\", \"--download_directory\"")
-            sys.exit()
+            err = "Error: Must select at least one of the following options: "\
+                  "\"--gene_list\", \"--create_bed\", \"--download_directory\""
+            print(err)
+            log.error(err)
+            sys.exit(err)
 
         return True
         
