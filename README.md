@@ -1,4 +1,3 @@
-
 # README.md
 ## NGTD_App as part of STP Software Engineering Module
 ###### Date created: 2023-11-07
