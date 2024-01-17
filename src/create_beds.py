@@ -93,7 +93,6 @@ class RequestBedData:
             chromosome = transcript[0]["transcripts"][0]["annotations"]\
             ["chromosome"]
             gene_symbol = transcript[0]["current_symbol"]
-            print(gene_symbol)
             hgnc = transcript[0]["hgnc"]
             transcript_id = transcript[0]["transcripts"][0]["reference"]
 

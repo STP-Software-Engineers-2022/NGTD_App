@@ -9,7 +9,7 @@ import src.data_import as data_import
 import src.create_beds as bed
 from config import log
 
-def main(argv=None):
+def main():
     
     # initialise cli object
     parsed = cli.CommandLineInterface(sys.argv[1:])
@@ -23,7 +23,11 @@ def main(argv=None):
     # Make the API request
     response = my_requests.request_data()
     gene_list, signoff = my_requests.gene_list(response)
-    my_requests.print_info(response, args, gene_list, signoff)
+    if args.gene_list:
+        my_requests.print_info(response, args, gene_list, signoff)
+    else:
+        pass
+        
 
     if args.create_bed:
         panel_info = my_requests.database_postage(response)
