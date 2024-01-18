@@ -3,8 +3,10 @@ Top to bottom functional tests, running from main script
 Author: Niall Gallop
 """
 
-import pytest
+import os
+import shutil
 import main as target
+import src.get_directory as getdir
 
 """
 Test use cases:
@@ -28,5 +30,10 @@ def test_bed_file(monkeypatch):
 
 # Use case 3
 def test_download_ngtd(monkeypatch):
-    monkeypatch.setattr("sys.argv", ["pytest", "-d"])
-    assert target.main()
+    try:
+        test_dir = "test_dir/"
+        os.mkdir(test_dir)
+        monkeypatch.setattr("sys.argv", ["pytest", "-d", test_dir])
+        assert target.main()
+    finally:
+        shutil.rmtree(test_dir)
