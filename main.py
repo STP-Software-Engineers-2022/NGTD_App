@@ -17,6 +17,10 @@ def main():
     if args.download_directory is not None:
         ngtd_dir = get_dir.get_directory(args)
         ngtd_dir.download_doc()
+    
+    if args.r_number is None:
+        return True
+    
     # Create an instance of MyRequests
     my_requests = pan.MyRequests(args)
     

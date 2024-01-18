@@ -24,8 +24,9 @@ def test_no_args():
 def test_r_flag_error():
     with pytest.raises(SystemExit) as err:
         parser = cli.CommandLineInterface(["-r", "R134"])
-    err_message = "Error: Must select at least one of the following options: "\
-                  "\"--gene_list\", \"--create_bed\", \"--download_directory\""
+    err_message = "Error: If r_number given, at least one of the following "\
+                  "options: \"--gene_list\", \"--create_bed\" must also be "\
+                  "given."
     assert str(err.value) == err_message
 
 

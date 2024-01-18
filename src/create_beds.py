@@ -1,7 +1,6 @@
 """
 Generate a bed file for a gene panel
 Authors: D. Scales, N. Gallop
-Last updated: NG - 12/12/23
 """
 from config import log
 import requests
@@ -62,17 +61,17 @@ class RequestBedData:
                                         )
                 response.raise_for_status()
             except requests.exceptions.HTTPError as errh:
-                print("HTTP Error: Variant Validator does not recognise url")
+                error = "HTTP Error: Variant Validator does not recognise url"
                 log.error(errh.args[0])
-                sys.exit(1)
+                sys.exit(error)
             except requests.exceptions.ReadTimeout as errt:
-                print("Error: Time out on Variant Validator API request")
+                error = "Error: Time out on Variant Validator API request"
                 log.error(errt.args[0])
-                sys.exit(1)
+                sys.exit(error)
             except requests.exceptions.ConnectionError as conerr:
-                print("Connection Error: No internet connection")
+                error = "Connection Error: No internet connection"
                 log.error(conerr.args[0])
-                sys.exit(1)
+                sys.exit(error)
             # Append response to gene_dict using gene from gene_list as the
             # key
             log.debug("API successfully called in create_beds.py")
@@ -104,7 +103,6 @@ class RequestBedData:
             except:
                 error = "Could not create bed file, process aborted."
                 log.error(error)
-                print(error)
                 sys.exit(error)
             log.debug("Successfully created bed file")
 

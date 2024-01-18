@@ -1,3 +1,6 @@
+"""Handles logger functionality
+Author: Niall Gallop
+"""
 import os
 import logging
 from logging.handlers import TimedRotatingFileHandler
