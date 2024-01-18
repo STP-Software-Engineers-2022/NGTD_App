@@ -31,6 +31,11 @@ def test_init(panel_info_dict, ref_genome):
 # test create_bed_files()
 def test_create_bed_files(panel_info_dict, ref_genome):
     test_object = target.RequestBedData(ref_genome, panel_info_dict)
+    test_dir = "test_dir/"
+    test_object.output_dir = test_dir
+    os.mkdir(test_dir)
     bed_file = test_object.create_bed_file()
     assert os.path.isfile(bed_file)
     os.remove(bed_file)
+    os.rmdir(test_dir)
+    assert os.path.isdir(test_dir) == False

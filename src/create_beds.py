@@ -40,6 +40,7 @@ class RequestBedData:
         self.gene_list = panel_info["genes"]
         self.reference_genome = ref_genome
         self.base_url = "https://rest.variantvalidator.org/"
+        self.output_dir = "bed_repository/"
         self.gene_dict = self.__get_responses()
 
 
@@ -76,7 +77,7 @@ class RequestBedData:
     def create_bed_file(self):
         # Create output bed file name from identifying factors
         # output_dir to change from being hardcoded
-        output_dir = "bed_repository/"
+        output_dir = self.output_dir
         r_code = self.panel_info["r_number"]
         panel_version = self.panel_info["panel_version"]
         refno = self.reference_genome[0]
