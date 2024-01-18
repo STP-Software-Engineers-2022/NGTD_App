@@ -59,7 +59,12 @@ Build and run program from container:
 ```
 docker build -t ngtd .
 docker run ngtd [ARGS]
+
+# after run is complete, container logs should be saved to file:
+docker logs [CONTAINER] >& logs/[FILE NAME].log
 ```
+
+N.B. to avoid a build up of containers, delete containers as appropriate from the Docker Desktop App
 
 #### Arguments
 
