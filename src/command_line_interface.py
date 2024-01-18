@@ -94,12 +94,15 @@ class CommandLineInterface:
                                         )
                     if ref_genome == "37":
                         self.ref_genome = ["37"]
+                        log.info("Genome build 37 selected for bed file")
                         break
                     elif ref_genome == "38":
                         self.ref_genome = ["38"]
+                        log.info("Genome build 38 selected for bed file")
                         break
                     else:
                         print("Please enter 37 or 38")
+                        log.debug(f"Incorrect input from user: {ref_genome}")
                         continue
 
         # if r number given but no gene_list or bed_creation requested:

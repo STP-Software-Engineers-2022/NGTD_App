@@ -54,5 +54,4 @@ def main():
 if __name__ == "__main__":
     if main():
         to_log = "main.py ran successfully"
-        print(f"\nLogging: {to_log}")
         log.info(to_log)
