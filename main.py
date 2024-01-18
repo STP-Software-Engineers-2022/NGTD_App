@@ -15,7 +15,7 @@ def main():
     parsed = cli.CommandLineInterface(sys.argv[1:])
     args = parsed.args
     if args.download_directory is not None:
-        ngtd_dir = get_dir.get_directory(args)
+        ngtd_dir = get_dir.GetDirectory(args)
         ngtd_dir.download_doc()
     
     if args.r_number is None:

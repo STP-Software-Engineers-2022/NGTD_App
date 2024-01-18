@@ -5,7 +5,7 @@ import re
 import os
 from urllib.request import urlopen
 
-class get_directory():
+class GetDirectory:
     def __init__(self, args):
         self.output = args.download_directory
         # Method to download National Test directory document            
