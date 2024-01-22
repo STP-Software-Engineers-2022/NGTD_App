@@ -13,29 +13,29 @@ cd NGTD_App
 ```
 
 ## Installation options
-There are then three different ways install the NGTD app and all required dependencies:
+There are then three different ways install the NGTD app and its dependencies:
 
-1. Install using requirements.txt and environment.yml
-2. Install using pyproject.toml
-3. Install using Docker container
-
-### 1. Install using requirements.txt and environment.yml
-1. Create a conda [environment](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment) from the ```environment.yml``` file, which specifies the python packages and versions required for the project to run: 
+1. [Install from ```requirements.txt``` and ```environment.yml```](#1-install-from-requirementstxt-and-environmentyml)
+2. [Install from ```pyproject.toml```](#2-install-from-pyprojecttoml)
+3. [Install from Docker container](#3-install-from-docker-container)
+---
+### 1. Install from requirements.txt and environment.yml
+a. Create a conda [environment](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment) from the ```environment.yml``` file, which specifies the dependencies required for the application to run: 
 ```
 conda env create -f environment.yml
 ```
 
-2. Activate the environment:
+b. Activate the environment:
 ```
 conda activate ngtd
 ```
 
-3. Use ```pip``` to install the ```requirements.txt``` file, which specifies the dependencies required for the project to run. The ```--requirements``` (```-r```) flag is used to indicate the requirements filename:
+c. Use ```pip``` to install the ```requirements.txt``` file, which specifies the python packages and versions required for the application to run. The ```--requirements``` (```-r```) flag is used to indicate the requirements filename:
 ```
 pip install -r requirements.txt
 ```
 
-4. Verify that NGTD app has been successfully installed:
+d. Verify that NGTD app has been successfully installed:
 ```
 python main.py --help
 ```
@@ -56,14 +56,14 @@ optional arguments:
                         Please input an output location, default output to
                         docs directory
 ```
-
-### 2. Install using pyproject.toml
-1. Use ```pip``` to install the ```pyproject.toml``` file, containing the build system requirements for the project, into the current directory:
+---
+### 2. Install from pyproject.toml
+a. Use ```pip``` to install the ```pyproject.toml``` file, containing the build system requirements for the application, into the current directory:
 ```
 pip install .
 ```
 
-2. Verify that NGTD app has been successfully installed:
+b. Verify that NGTD app has been successfully installed:
 ```
 python main.py --help
 ```
@@ -84,21 +84,21 @@ optional arguments:
                         Please input an output location, default output to
                         docs directory
 ```
+---
+### 3. Install from Docker container
+a. If you havent already, please download and install [Docker Desktop](https://www.docker.com/products/docker-desktop/) 
 
-### 3. Install using docker container
-1. If you havent already, please download and install [Docker Desktop](https://www.docker.com/products/docker-desktop/) 
-
-2. In the command line, launch the docker daemon using Docker Desktop:
+b. In the command line, launch the Docker daemon using Docker Desktop:
 ```
 open -a Docker
 ```
 
-3. Build a Docker image from the Dockerfile, which is located in the current directory. The ```--tag``` (```-t```) flag is used to name the Docker image: 
+c. Build a Docker image from the Dockerfile, which is located in the current directory. The ```--tag``` (```-t```) flag is used to name the Docker image: 
 ```
 docker build -t ngtd .
 ```
 
-4. Run the application in a Docker container, specifying the image reference to create the container:
+d. Run the application in a Docker container, specifying the image reference to create the container:
 ```
 docker run ngtd python main.py --help
 ```
