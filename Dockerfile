@@ -31,7 +31,4 @@ RUN pip install .
 # Define the entrypoint as an empty command
 # This allows for flexibility in specifying the command when running the container.
 # You can override this by providing a command when running the container with 'docker run'.
-ENTRYPOINT []
-
-# Start the container by running a specific Python script. The "tail", "-f", "/dev/null" command allows the container to keep running in detached mode untill it it killed manually
-CMD ["python", "main.py"]
+ENTRYPOINT ["python", "main.py"]
