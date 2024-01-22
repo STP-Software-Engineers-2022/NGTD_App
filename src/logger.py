@@ -1,3 +1,6 @@
+"""
+This module provides the Logger class for creating and configuring loggers.
+"""
 import os
 import logging
 from logging.handlers import TimedRotatingFileHandler
