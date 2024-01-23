@@ -52,8 +52,9 @@ def main(argv=None):
     # Create an instance of MyRequests
     try:
         my_requests = pan.MyRequests(args)
-    except ValueError as e:
-        print(e)
+    except ValueError as valerr:
+        print(valerr)
+        log.error(valerr.args[0])
         return False
     
     # Make the API request

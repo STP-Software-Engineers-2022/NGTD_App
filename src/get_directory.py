@@ -7,11 +7,13 @@ Example:
 
 Author: D. Ajayi
 """
+import sys
 import requests
 import certifi
 import ssl
 import re
 import os
+from config import log
 from urllib.request import urlopen
 from urllib.error import URLError
 
@@ -63,8 +65,10 @@ class get_directory():
                 "genomic-test-directories/"
             page = urlopen(url, context=context)
             html = page.read().decode("utf-8")
-        except URLError as e:
-            print(f"Failed to open URL: {e.reason}")
+        except URLError as urlerr:
+            print(f"Failed to open URL: {urlerr.reason}")
+            log.error(urlerr.args[0])
+            sys.exit(1)
 
         # Create regular expressions to find document version
         version_pattern = ("The National genomic test directory.*rare "
@@ -101,6 +105,8 @@ class get_directory():
                 else:
                     open(doc_file[7], "wb").write(doc_request.content)
                     print("in current directory:", os.path.realpath("."))
-            except requests.exceptions.RequestException as e:
-                print(f"Error downloading the file: {e}")
+            except requests.exceptions.RequestException as reqerr:
+                print(f"Error downloading the file: {reqerr}")
+                log.error(reqerr.args[0])
+                sys.exit(1)
             

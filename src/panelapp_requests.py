@@ -81,8 +81,11 @@ class MyRequests:
         try:
             self.r_code = args.r_number
             self.url = "".join(["/panels/", self.r_code])
-        except TypeError:
-            raise ValueError("Enter an R number using the '-r' flag it should be a string. e.g. R134")
+        except TypeError as typeerr:
+            print(f"Error, missing URL: {typeerr}")
+            log.error(typeerr.args[0])
+            raise ValueError("Enter an R number using the '-r' flag it should"
+                             " be a string. e.g. R134")
         self.create_bed = args.create_bed
         self.base_url = "https://panelapp.genomicsengland.co.uk/api/v1"
         
