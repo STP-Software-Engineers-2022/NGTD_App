@@ -1,6 +1,6 @@
-
 """
 This module initializes and configures a logger for the NGTD_APP application.
+It also stores the URL for downloading the Directory spreadsheet of tests
 
 Attributes
 ----------
@@ -21,3 +21,5 @@ Example
 from src.logger import Logger
 
 log = Logger(name="NGTD_APP", log_level="DEBUG", log_dir="logs/").get_logger()
+td_url = "https://www.england.nhs.uk/publication/national-genomic-test-"
+"directories/"
