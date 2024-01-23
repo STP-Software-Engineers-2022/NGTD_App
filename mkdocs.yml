@@ -1,6 +1,8 @@
-site_name: NGTD app
-site_url: https://ngtd-app-ngtd-app.readthedocs-hosted.com/en/latest/
+site_name: National Genomic Test Directory (NGTD) application
 nav:
-  - Home: index.md
-  - About: README.md
-theme: readthedocs
+  - Home: 'README.md'
+  - 'User Guide':
+    - 'Installation': 'INSTALL.md'
+    - 'User guide': 'userguide.md'
+  - About:
+    - 'License': 'license.md'
