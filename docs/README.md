@@ -12,13 +12,10 @@ A tool to manage gene panels for [NHS National Genomic Test Directory](https://w
     - Use [PanelApp API](https://panelapp.genomicsengland.co.uk/api/docs/) to retrieve gene list of a gene panel based on a given R number
     - Expand this functiaonlity to accept a list of R numbers
     - Investigate expanding functionality to accept more than just R numbers
-
 2. Generate a BED file from a gene panel that can be used an an input for an NGS pipeline
-
 3. Build a safe and efficient repository of genetic test and panel information
     - For use in the laboratory 
     - Emphasis on reliability and speed
-
 4. Build a repository of which tests, gene panels, BED files, reference sequences and version which have been applied to each patient case so that the laboratory has an accurate record of how analyses were performed.  
 
 ## Pre-requisites for Local Installation
