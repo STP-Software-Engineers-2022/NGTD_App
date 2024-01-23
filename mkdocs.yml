@@ -1,5 +1,5 @@
 site_name: NGTD app
-site_url: https://example.com/
+site_url: https://ngtd-app-ngtd-app.readthedocs-hosted.com/en/latest/
 nav:
   - Home: index.md
   - About: README.md
