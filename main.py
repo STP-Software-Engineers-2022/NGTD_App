@@ -63,19 +63,20 @@ def main(argv=None):
         pass
     
     # Create an instance of MyRequests
-
     my_requests = pan.MyRequests(args)
 
-    
     # Make the API request
     response = my_requests.request_data()
     gene_list, signoff = my_requests.gene_list(response)
+
+    # print to screen if requested in args
     if args.gene_list:
-        my_requests.print_info(response, args, gene_list, signoff)
+        my_requests.print_info(response, gene_list, signoff)
     else:
         pass
         
-
+    # If user wants to create the bed file and store it locally with
+    # reference in database
     if args.create_bed:
         panel_info = my_requests.database_postage(response)
 

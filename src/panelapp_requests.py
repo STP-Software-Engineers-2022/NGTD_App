@@ -113,6 +113,7 @@ class MyRequests:
             response = requests.get(
                 self.base_url + self.url, timeout=20, verify=True)
             response.raise_for_status()
+            log.debug("PanelApp data retrieved")
         except requests.exceptions.HTTPError as errh:
             print("HTTP Error: R number is not associated with a gene panel "
                   "or does not exist.\nPlease refer to Genomic Test Directory"
@@ -170,10 +171,10 @@ class MyRequests:
             signoff = "GMS signed-off"
         else:
             signoff = "not GMS signed-off"
-
+        log.debug("Gene list generated")
         return gene_list, signoff
 
-    def print_info(self, response, r_code, gene_list, signoff):
+    def print_info(self, response, gene_list, signoff):
         """
         Print detailed information about the gene panel.
 
@@ -196,6 +197,7 @@ class MyRequests:
         print(" ".join(
             ["Genes included in the", self.r_code, 
              "panel:", " ".join(gene_list)]))
+        log.debug("Gene list printed to terminal")
 
     def database_postage(self, response):
         """
@@ -257,26 +259,27 @@ class MyRequests:
 
         # Ask user for input in case the panel is not GMS signed
         if signoff == "not GMS signed-off":
+            log.info("Not GMS-signed off, ask user to continue")
             user_input = input("Do you want to continue with the \
                 analysis? (yes/no): ").lower()
+            log.info(f"User selected {user_input}")
 
             if user_input == "yes":
-
                 r_dict = {"r_number": r_code, "panel_id": panel_id, \
                     "panel_version": p_version, "signoff_status":  \
                     signoff, "genes": g_list, "hgnc_id_list": h_list}
-
+                log.debug("non-GMS signed-off panel added to database")
                 return r_dict
+            
             else:
                 print(" ".join(["\nAnalysis ended due to", r_code, 
                                 "not being GMS signed off."]))
+                log.debug("non-GMS signed-off panel not added to database")
 
-
-                
         elif signoff == "GMS signed-off":
+            log.debug("GMS signed-off panel")
             r_dict = {"r_number": r_code, "panel_id": panel_id, \
                 "panel_version": p_version, "signoff_status": signoff, \
                 "genes": g_list, "hgnc_id_list": h_list}
-            
             return r_dict
             

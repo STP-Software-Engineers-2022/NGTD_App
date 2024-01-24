@@ -86,6 +86,7 @@ class GetDirectory:
             print(msg)
             log.warning(msg)
             return False
+        
         else:
             match_html_tag_results = re.search(html_tag_pattern, 
                                     match_version_results[0], re.IGNORECASE)
