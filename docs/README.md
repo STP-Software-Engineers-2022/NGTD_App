@@ -44,7 +44,7 @@ The programme uses the following scripts:
 
 ### Script Flow UML
 Below is a UML of the flow of the different scripts showcasing their key classes and the functions that are called.
-![Alt text](script_uml.png)  
+![Alt text](img/script_uml.png)  
 
 ## Database
 The database, `NGTD.db`, was created using the script `database.py`.  
@@ -52,7 +52,7 @@ It holds 4 tables (*patient*, *test*, *gene*, *bedfile*) and 2 join tables (*pat
 The *patient2test* table links patients to tests using the corresponding tables' primary keys. Tests are linked to genes in a similar manner with *test2gene*.  
 
 Please find the UML of the database below:  
-![Alt text](database_uml.png)  
+![Alt text](img/database_uml.png)  
 
 `NGTD.db` already holds some data which may be viewed using a database tool such as DBeaver. The tables *test*, *gene*, *test2gene*, and *bedfile* were populated by running the `main.py` script. Dummy patient data was added to the database and linked to tests via *patient2test* manually.  
 
@@ -82,4 +82,4 @@ pytest test/
 
 ## License
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)  
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT) - see the [LICENSE.txt](LICENSE.txt) file for details.
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT) - see the [LICENSE.md](LICENSE.md) file for details.

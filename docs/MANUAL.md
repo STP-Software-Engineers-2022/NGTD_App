@@ -4,7 +4,7 @@ Date modified: 23-Jan-2024
 Authors: Caroline Riehl  
 
 # Installation 
-See the [INSTALL.md](docs/INSTALL.md) document for full instructions.
+See the [INSTALL.md](INSTALL.md) document for full instructions.
 
 # Operation
 NGTD_App is operated by running the python `main.py` script. Running the script with the `-h` flag shows the different options of how to run the tool.
@@ -99,7 +99,7 @@ The programme uses the following scripts:
 
 ### Script Flow UML
 Below is a UML of the flow of the different scripts showcasing their key classes and the functions that are called.
-![Alt text](script_uml.png)
+![Alt text](img/script_uml.png)
 
 ## Database
 The database, `NGTD.db`, was created using the script `database.py`.  
@@ -113,28 +113,28 @@ It holds 6 tables:
 - *test2gene*: a join table that links tests to genes using these tables' primary keys  
 
 ### Database UML 
-![Alt text](database_uml.png)  
+![Alt text](img/database_uml.png)  
 
 ### Database content
 `NGTD.db` already holds some data which may be viewed using a database tool such as [DBeaver](https://dbeaver.io). The tables *test*, *gene*, *test2gene*, and *bedfile* were populated by running the `main.py` script. Dummy patient data was added to the database and linked to tests via *patient2test* manually.  
 
 **Table *patient***  
-![Alt text](patient_DB.png)  
+![Alt text](img/patient_DB.png)  
 
 **Table *patient2test***  
-![Alt text](patient2test_DB.png)  
+![Alt text](img/patient2test_DB.png)  
 
 **Table *test***  
-![Alt text](test_DB.png)   
+![Alt text](img/test_DB.png)   
 
 When running the `main.py` script with `-r [arg] -b`, `data_import.py` first checks whether the panel, its most up-to-date version, and the bed file for the requested genome build already exist in the database. If any of those 3 options differ, the panel information is added to the database along with the path of the location of the new bed file.  
 As multiple panels may contain the same genes, the script ensures that no duplicates of genes are created by checking for the presence of the gene's HGNC ID in the gene table. If the ID already exists, its primary key is used to link it to the new test in the *test2gene* table. If the HGNC ID does not yet exist, a new entry and new primary key are created in the *gene* table and used instead. 
 
 **Table *test2gene***  
-![Alt text](test2gene_DB.png)
+![Alt text](img/test2gene_DB.png)
 
 **Table *gene***  
-![Alt text](gene_DB.png)  
+![Alt text](img/gene_DB.png)  
 
 ## Logging
 Logging is carried out using the `logger.py` script, configured under `config.py`, which tracks the running of all scripts.   
@@ -182,13 +182,12 @@ This document will by default be saved within the `docs/` directory and can then
 To perfom checks on the database and verify that data has been added as expected, NGTD.db may be opened using a database administration tool such as [DBeaver](https://dbeaver.io). 
 
 DBeaver can be downloaded using the following [link](https://dbeaver.io/download/). DBeaver Communiy is a free and open source tool. Select the application corresponding to your local operating system.  
-![Alt text](dbeaver_install_1.png)  
+![Alt text](img/dbeaver_install_1.png)  
 
 Once installed, click on the "New Database Connection" icon on the top left of the page and select SQLite.   
-![Alt text](dbeaver_install_2.png)  
+![Alt text](img/dbeaver_install_2.png)  
 
 Provide the path to the NGTD.db database within the "Path" field and click "Finish".  
-![Alt text](dbeaver_install_3.png)  
+![Alt text](img/dbeaver_install_3.png)  
 
-The contents of the database can then be viewed. 
-
+The contents of the database can then be viewed.
