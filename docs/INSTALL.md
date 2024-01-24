@@ -1,4 +1,8 @@
 # Installation
+Date created: 24-Jan-2024
+Date modified: 24-Jan-2024
+Authors: Danni Scales
+
 This document provides instructions for installing the National Genomic Test Directory (NGTD) application and accompanying database on Mac OS X computers. We recommended [installing through Docker](#install-through-docker) for all other systems, or if you encounter any installation issues.
 
 ## Pre-requisites
