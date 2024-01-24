@@ -134,8 +134,8 @@ class CommandLineInterface:
 
         if list(selected_args[i] for i in [0,1,3]) == [False, False, False]:
             print("Error: Must select at least one of the following options:",
-                  "\"--gene_list\", \"--create_bed\", \
-                    \"--download_directory\"")
+                  "\"--gene_list\", \"--create_bed\",",
+                   "\"--download_directory\"")
             sys.exit()
 
         return True

@@ -50,12 +50,9 @@ def main(argv=None):
         ngtd_dir = get_dir.get_directory(args)
         ngtd_dir.download_doc()
     # Create an instance of MyRequests
-    try:
-        my_requests = pan.MyRequests(args)
-    except ValueError as valerr:
-        print(valerr)
-        log.error(valerr.args[0])
-        return False
+
+    my_requests = pan.MyRequests(args)
+
     
     # Make the API request
     response = my_requests.request_data()

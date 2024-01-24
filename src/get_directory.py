@@ -81,7 +81,8 @@ class get_directory():
         else:
             match_html_tag_results = re.search(html_tag_pattern, 
                                     match_version_results[0], re.IGNORECASE)
-            doc_version = re.sub("^<.*?>|</.*?>", "", match_html_tag_results[0])
+            doc_version = re.sub(
+                "^<.*?>|</.*?>", "", match_html_tag_results[0])
             doc_version = doc_version.split(" ") # remove unnecessary text
             print("Downloaded Test Directory", doc_version[0], doc_version[1])
 

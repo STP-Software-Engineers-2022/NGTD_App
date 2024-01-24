@@ -78,14 +78,9 @@ class MyRequests:
     """
 
     def __init__(self, args):
-        try:
-            self.r_code = args.r_number
-            self.url = "".join(["/panels/", self.r_code])
-        except TypeError as typeerr:
-            print(f"Error, missing URL: {typeerr}")
-            log.error(typeerr.args[0])
-            raise ValueError("Enter an R number using the '-r' flag it should"
-                             " be a string. e.g. R134")
+
+        self.r_code = args.r_number
+        self.url = "".join(["/panels/", self.r_code])
         self.create_bed = args.create_bed
         self.base_url = "https://panelapp.genomicsengland.co.uk/api/v1"
         
@@ -230,49 +225,57 @@ class MyRequests:
         r_code = self.r_code
         bed = self.create_bed
 
-        # bed is a boolean variable for whether the user wants a bed or not 
-        if bed:
-            # Get gene symbols & HGNC IDs in lists as well as panel id for 
-            # dictionary    
-            g_list = [g["gene_data"]["gene_symbol"] \
+        # bed is a boolean variable for whether the user wants a bed or not
+        # this check is purely for development/debugging
+        if bed == False:
+            warn = "User has not selected bed file, but attempt to utilise"\
+                "database_postage was made"
+            log.warning(warn)
+            sys.exit(warn)
+
+        # Get gene symbols & HGNC IDs in lists as well as panel id for 
+        # dictionary    
+        g_list = [g["gene_data"]["gene_symbol"] \
+        for g in response.json()["genes"]]
+
+        h_list = [g["gene_data"]["hgnc_id"] \
             for g in response.json()["genes"]]
+        
+        panel_id = response.json()["id"]
+        p_version = response.json()["version"]
 
-            h_list = [g["gene_data"]["hgnc_id"] \
-                for g in response.json()["genes"]]
-            
-            panel_id = response.json()["id"]
-            p_version = response.json()["version"]
+        # Get GMS signed off status
+        s_list = [s["name"] for s in response.json()["types"]]
 
-            # Get GMS signed off status
-            s_list = [s["name"] for s in response.json()["types"]]
+        if "GMS signed-off" in s_list:
+            signoff = "GMS signed-off"
+        else:
+            signoff = "not GMS signed-off"
 
-            if "GMS signed-off" in s_list:
-                signoff = "GMS signed-off"
-            else:
-                signoff = "not GMS signed-off"
+        # Initiate dictionary for R number
+        r_dict = {}
 
-            # Initiate dictionary for R number
-            r_dict = {}
+        # Ask user for input in case the panel is not GMS signed
+        if signoff == "not GMS signed-off":
+            user_input = input("Do you want to continue with the \
+                analysis? (yes/no): ").lower()
 
-            # Ask user for input in case the panel is not GMS signed
-            if signoff == "not GMS signed-off":
-                user_input = input("Do you want to continue with the \
-                    analysis? (yes/no): ").lower()
+            if user_input == "yes":
 
-                if user_input == "yes":
-
-                    r_dict = {"r_number": r_code, "panel_id": panel_id, \
-                        "panel_version": p_version, "signoff_status":  \
-                        signoff, "genes": g_list, "hgnc_id_list": h_list}
-
-                    print(r_dict) # for checking todelete
-                    return r_dict
-                else:
-                    print(" ".join(["\nAnalysis ended due to", r_code, 
-                                    "not being GMS signed off."]))
-            elif signoff == "GMS signed-off":
                 r_dict = {"r_number": r_code, "panel_id": panel_id, \
-                    "panel_version": p_version, "signoff_status": signoff, \
-                    "genes": g_list, "hgnc_id_list": h_list}
+                    "panel_version": p_version, "signoff_status":  \
+                    signoff, "genes": g_list, "hgnc_id_list": h_list}
+
+                print(r_dict) # for checking todelete
                 return r_dict
+            else:
+                print(" ".join(["\nAnalysis ended due to", r_code, 
+                                "not being GMS signed off."]))
                 
+        elif signoff == "GMS signed-off":
+            r_dict = {"r_number": r_code, "panel_id": panel_id, \
+                "panel_version": p_version, "signoff_status": signoff, \
+                "genes": g_list, "hgnc_id_list": h_list}
+            
+            return r_dict
+            
