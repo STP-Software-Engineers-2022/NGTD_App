@@ -8,13 +8,15 @@ name = "ngtd_app"
 version = "1.0"
 
 dependencies = [
-  "argparse==1.4.0"
-  "config==0.5.1"
-  "python==3.12"
-  "pip==23.3"
-  "certifi==2023.11.17"
-  "pytest==7.4.0"
-  "requests==2.31.0"
+  "argparse==1.4.0",
+  "config==0.5.1",
+  "python==3.12",
+  "pip==23.3",
+  "certifi==2023.11.17",
+  "pytest==7.4.0",
+  "requests==2.31.0",
+  "coverage==7.4.0",
+  "pytest-cov==4.1.0"
 ]
 
 requires-python = ">=3.9"
