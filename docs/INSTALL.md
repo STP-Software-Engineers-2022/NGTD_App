@@ -9,6 +9,7 @@ This document provides instructions for installing the National Genomic Test Dir
 Required:
 - Python 3.9 or above
 - SQLite version 3.41.2 or above
+- Pytest version 7.4.2 or above 
 
 ### Download the source code
 If you havent already, please download the appropriate version of [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) for your OS before proceeding.
