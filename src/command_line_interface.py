@@ -30,24 +30,27 @@ class CommandLineInterface:
 
         parser.add_argument(
             "-g", "--gene_list", action="store_true", 
-            help="Return a list of gene from a gene panel for a given \
-                R number"
+            help="Return a list of genes from a gene panel \
+                (provide the R number via the -r flag)"
         )
         parser.add_argument(
             "-b", "--create_bed", action="store_true",
-            help="Generate a bed file for a given gene list"
+            help="Generate a bed file for a gene panel \
+                (provide the R number via the -r flag). \
+                Outputs to bed_repository/"
+                
         )
         parser.add_argument(
             "-r", "--r_number",
-            help="Provide the R number from the Genomic Test Directory that \
-                you wish to enquire about"
+            help="Provide the R number from the National Genomic Test \
+                Directory that you wish to enquire about"
         )
         parser.add_argument(
             "-d", "--download_directory", nargs="?", const="docs/", 
             default=None,
-            help="Download the latest national test directory and save. \
-                Please input an output location, default output to docs \
-                directory"
+            help="Download the latest national test directory. \
+                Please provide an output location. Outputs by default to the \
+                docs/ directory"
         )
 
         self.args = parser.parse_args(sys_args)
