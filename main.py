@@ -100,6 +100,7 @@ def main(argv=None):
     return True
 
 if __name__ == "__main__":
+    log.debug("____PROGRAM START____")
     if main():
         to_log = "main.py ran successfully"
         log.info(to_log)

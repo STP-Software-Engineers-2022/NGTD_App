@@ -40,8 +40,8 @@ def import_into_database(panel_data, bed_file_link):
     # Add test to the database if not already present with the same version
     if does_data_entry_exist(cursor, panel_data, bed_file_link) != True:
         test_info_into_database(panel_data, bed_file_link, cursor)
-        msg = f"Panel information and associated bed file path \
-            ({bed_file_link}) added to the database successfully!"
+        msg = "Panel information and associated bed file path" +\
+            f" ({bed_file_link}) added to the database successfully!"
         print("\n"+msg)
         log.info(msg)
 
