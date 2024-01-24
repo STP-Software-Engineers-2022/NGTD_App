@@ -1,8 +1,8 @@
 site_name: National Genomic Test Directory (NGTD) application
 nav:
   - Home: 'README.md'
-  - 'User Guide':
+  - 'User guides':
     - 'Installation': 'INSTALL.md'
-    - 'User guide': 'userguide.md'
+    - 'Manual': 'MANUAL.md'
   - About:
-    - 'License': 'license.md'
+    - 'License': 'LICENCE.txt'
