@@ -1,6 +1,6 @@
 """
 Conftest file for data_import_test.py fixtures
-Written by Caroline Riehl
+Author: Caroline Riehl
 Last updated: Caroline Riehl - 21-Jan-2024
 """
 

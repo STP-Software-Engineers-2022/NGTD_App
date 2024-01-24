@@ -1,7 +1,7 @@
 """
 Test data_import.py functions
-Written by Caroline Riehl
-Last updated: Caroline Riehl - 21-Jan-2024
+Author: Caroline Riehl
+Last Updated: Caroline Riehl - 21-Jan-2024
 """
 
 import pytest

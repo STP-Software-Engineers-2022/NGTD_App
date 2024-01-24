@@ -1,10 +1,11 @@
-import os
-import sys
+"""Test get_directory functions
+Author: D. Ajayi
+Last Updated: Niall Gallop 24-Jan-2024
+"""
 import pytest
 from unittest.mock import patch, MagicMock
-from urllib.error import URLError
 import src.get_directory as get_directory
-import config
+
 from config import td_url as url
 
 class ArgsMock:

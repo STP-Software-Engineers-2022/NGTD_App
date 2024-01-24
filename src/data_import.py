@@ -1,6 +1,7 @@
-# Script to import panel information and bed file into database
-# Created by Caroline Riehl
-# Last updated: Caroline Riehl - 18-Jan-2023
+"""Script to import panel information and bed file into database
+Author: Caroline Riehl
+Last Updated: Niall Gallop 24-Jan-2024
+"""
 
 import sqlite3
 from datetime import datetime

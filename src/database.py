@@ -1,7 +1,7 @@
-# Script to create the database
-# Created by Caroline Riehl
-# Last updated 21-Jan-2023 by CR
-
+"""Script to create the database
+Author: Caroline Riehl
+Last Updated: Caroline Riehl 21-Jan-2024
+"""
 import sqlite3
 
 def create_database():

@@ -10,6 +10,7 @@ Example usage:
     panel_info = my_requests.database_postage(response)
 
 Authors: D. Ajayi, N. Gallop
+Last Updated: Niall Gallop 24-Jan-2024
 """
 import requests
 import sys

@@ -6,6 +6,8 @@ Functions
 main(argv=None)
     Handles the execution of the entire application based on command 
     line arguments.
+
+Last Updated: Niall Gallop 24-Jan-2024
 """
 import sys
 import src.command_line_interface as cli

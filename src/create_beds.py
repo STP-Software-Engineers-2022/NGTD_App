@@ -1,7 +1,7 @@
 """
 Generate a bed file for a gene panel
 Authors: D. Scales, N. Gallop
-Last updated: Carline Riehl - 21-Jan-2024
+Last Updated: Niall Gallop 24-Jan-2024
 """
 from config import log
 import requests

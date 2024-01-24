@@ -6,8 +6,8 @@ Example:
     ngtd_dir.download_doc()
 
 Author: D. Ajayi
+Last Updated: Niall Gallop 24-Jan-2024
 """
-import sys
 import requests
 import certifi
 import ssl
@@ -126,7 +126,8 @@ class GetDirectory:
                     log.debug("NGTD downloaded successfully")
             except requests.exceptions.RequestException as reqerr:
                 log.error(reqerr.args[0])
-                sys.exit(f"Error downloading the file: {reqerr}")
+                print(f"Error downloading the file: {reqerr}")
+                return False
         
         return True
             
