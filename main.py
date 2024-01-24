@@ -80,8 +80,12 @@ def main(argv=None):
     if args.create_bed:
         panel_info = my_requests.database_postage(response)
 
+        # Create an object with a dictionary of gene, transcript (k, v) as 
+        # an attribute
         gene_panel_transcripts = bed.RequestBedData(
             parsed.ref_genome, panel_info)
+        
+        # Create bed file from gene-transcript dictionary
         bed_file_link = gene_panel_transcripts.create_bed_file()
 
         # Import panel information and bed file path into database

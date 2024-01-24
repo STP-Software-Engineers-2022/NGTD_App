@@ -38,6 +38,10 @@ class RequestBedData:
         Gathers all the relevant information from the API responses to create
         the bed file line by line. Currently outputs to a hardcoded location,
         but this will change in the future.
+    create_file()
+        Creates and initialises the bed file with headers
+    write_file()
+        Appends the remaining information to the file
     """
     def __init__(self, ref_genome, panel_info):
         self.panel_info = panel_info
@@ -114,6 +118,7 @@ class RequestBedData:
             file.write(f"#REFERENCE GENOME BUILD: GRCh{ref_genome_build}\n")
             file.write("".join(["#GENE\t #SYMBOL\t #TRANSCRIPT\t #GENOMIC ",
                                 "SPAN\t #CHROMO\t #EXON\t #START\t #END\n"]))
+        log.debug("BED file initialised")
         return True
     
     def write_file(self, file_name):
