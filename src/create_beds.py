@@ -1,6 +1,7 @@
 """
 Generate a bed file for a gene panel
 Authors: D. Scales, N. Gallop
+Last updated: Carline Riehl - 21-Jan-2024
 """
 from config import log
 import requests
@@ -86,7 +87,7 @@ class RequestBedData:
         r_code = self.panel_info["r_number"]
         panel_version = self.panel_info["panel_version"]
         refno = self.reference_genome[0]
-        output_file = f"{output_dir}{r_code}_GCRh{refno}_V{panel_version}.bed"
+        output_file = f"{output_dir}{r_code}_GRCh{refno}_V{panel_version}.bed"
         
         if os.path.isfile(output_file):
             debug_message = "BED file for this gene panel (inc. ref genome "\
