@@ -1,6 +1,6 @@
 # USER MANUAL
 Date created: 23-Jan-2024  
-Date modified: 23-Jan-2024  
+Date modified: 24-Jan-2024  
 Authors: Caroline Riehl  
 
 # Installation 
@@ -70,7 +70,7 @@ This panel is already saved in the database under the same version and the same 
 ```
 python3 main.py -d
 ```
-Command Line Interface Output:
+Command Line Interface output:
 ```
 Downloaded Test Directory Version 6
 It can be found in: ~/NGTD_App/docs/Rare-and-inherited-disease-national-genomic-test-directory-version-6.xlsx
@@ -90,9 +90,9 @@ The following flag combinations are also valid:
 ## Scripts
 The programme uses the following scripts:
 1. **`main.py`**: the main script that is used to run all other scripts
-2. **`command_line_interface.py`**: script to capture all user provided flags and arguments
-3. **`panelapp_request.py`**: script to querry the [PanelApp API](https://panelapp.genomicsengland.co.uk/api/docs/) using the panel R number provided by the user
-4. **`create_beds.py`**: script to create the bed file using [VariantValidator rest API](https://rest.variantvalidator.org) depending on the R number and the refernece genome build provided by the user
+2. **`command_line_interface.py`**: script to capture all user arguments provided by the user
+3. **`panelapp_request.py`**: script to query the [PanelApp API](https://panelapp.genomicsengland.co.uk/api/docs/) using the panel R number provided by the user
+4. **`create_beds.py`**: script to create the bed file using [VariantValidator rest API](https://rest.variantvalidator.org) depending on the R number and the reference genome build provided by the user
 5. **`data_import.py`**: script to upload panel information and bed file location to the database
 6. **`get_directory.py`**: script to download the current [National Genomic Test Directory](https://www.england.nhs.uk/publication/national-genomic-test-directories/) document into the `NGTD_App/docs/` directory
 
@@ -163,25 +163,25 @@ If bed file creation selected, an R number must be  passed with flag -r
 ```
 
 ### Understanding `main.py` flags 
-The correct handling of flags can be investigated by reading the operation section within this documentusing or running `main.py` with the `-h` flag directly. This will output a summary of all flags and how to use them. 
+The correct handling of flags can be investigated by reading the operation section within this document or running `main.py` with the `-h` flag directly. This will output a summary of all flags and how to use them. 
 
 ### Invalid R number
-If an invalid R number is provided, the followinf error message will be received.
+If an invalid R number is provided, the following error message will be received.
 ```
 HTTP Error: R number is not associated with a gene panel or does not exist.
 Please refer to Genomic Test Directory for guidance.
 ```
 
-The current NHS Genome Testing Directory docuemtn can be downloaded using the following command:
+The current NHS Genome Testing Directory document can be downloaded using the following command:
 ```
 python3 main.py -d
 ```
 This document will by default be saved within the `docs/` directory and can then be used to identify the valid R number associated with a clinical indication. 
 
 ### Investigate database
-To perfom checks on the database and verify that data has been added as expected, NGTD.db may be opened using a database administration tool such as [DBeaver](https://dbeaver.io). 
+To perform checks on the database and verify that data has been added as expected, NGTD.db may be opened using a database administration tool such as [DBeaver](https://dbeaver.io). 
 
-DBeaver can be downloaded using the following [link](https://dbeaver.io/download/). DBeaver Communiy is a free and open source tool. Select the application corresponding to your local operating system.  
+DBeaver can be downloaded using the following [link](https://dbeaver.io/download/). DBeaver Community is a free and open source tool. Select the application corresponding to your local operating system.  
 ![Alt text](img/dbeaver_install_1.png)  
 
 Once installed, click on the "New Database Connection" icon on the top left of the page and select SQLite.   
