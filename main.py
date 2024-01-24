@@ -9,21 +9,29 @@ import src.data_import as data_import
 import src.create_beds as bed
 from config import log
 
-def main(argv=None):
+def main():
     
     # initialise cli object
     parsed = cli.CommandLineInterface(sys.argv[1:])
     args = parsed.args
     if args.download_directory is not None:
-        ngtd_dir = get_dir.get_directory(args)
+        ngtd_dir = get_dir.GetDirectory(args)
         ngtd_dir.download_doc()
+    
+    if args.r_number is None:
+        return True
+    
     # Create an instance of MyRequests
     my_requests = pan.MyRequests(args)
     
     # Make the API request
     response = my_requests.request_data()
     gene_list, signoff = my_requests.gene_list(response)
-    my_requests.print_info(response, args, gene_list, signoff)
+    if args.gene_list:
+        my_requests.print_info(response, args, gene_list, signoff)
+    else:
+        pass
+        
 
     if args.create_bed:
         panel_info = my_requests.database_postage(response)
@@ -46,5 +54,4 @@ def main(argv=None):
 if __name__ == "__main__":
     if main():
         to_log = "main.py ran successfully"
-        print(f"\nLogging: {to_log}")
         log.info(to_log)

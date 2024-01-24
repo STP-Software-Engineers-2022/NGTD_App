@@ -1,8 +1,7 @@
-"""###########################################################################
+"""
 Test Panel App Request Object
-Hits PanelApp API to return a list of genes for a gene panel from a given
-R number
-###########################################################################"""
+Author: Niall Gallop
+"""
 
 import pytest
 import src.command_line_interface as cli

@@ -1,11 +1,11 @@
 """
 Command Line Interface
 Author: N. Gallop
-Last updated: NG - 12/12/23
 """
 
 import argparse
 import sys
+from config import log
 
 class CommandLineInterface:
     """
@@ -69,18 +69,23 @@ class CommandLineInterface:
     def __handle_options(self):
         selected_args = self.__arg_selection()
 
+        # If gene_list selected but no r_number given:
         if selected_args[0] == True:
             if selected_args[2] != True:
-                print("If gene_list is selected, an R number must be given",
+                err = "If gene_list is selected, an R number must be given "\
                       "with flag -r"
-                      )
-                sys.exit()
+                log.error(err)
+                sys.exit(err)
+
+        # If bed creation selected:
         if selected_args[1] == True:
+            #  ...but no r_number given:
             if selected_args[2] != True:
-                print("If bed file creation selected, an R number must be",
+                err = "If bed file creation selected, an R number must be"\
                       " passed with flag -r"
-                      )
-                sys.exit()
+                log.error(err)
+                sys.exit(err)
+            # ...and r_number is given, which genome?
             else:
                 while True:
                     ref_genome = input(" ".join(["For which reference genome",
@@ -89,18 +94,31 @@ class CommandLineInterface:
                                         )
                     if ref_genome == "37":
                         self.ref_genome = ["37"]
+                        log.info("Genome build 37 selected for bed file")
                         break
                     elif ref_genome == "38":
                         self.ref_genome = ["38"]
+                        log.info("Genome build 38 selected for bed file")
                         break
                     else:
                         print("Please enter 37 or 38")
+                        log.debug(f"Incorrect input from user: {ref_genome}")
                         continue
 
+        # if r number given but no gene_list or bed_creation requested:
+        if list(selected_args[i] for i in [0,1,2]) == [False, False, True]:
+            err = "Error: If r_number given, at least one of the following "\
+                  "options: \"--gene_list\", \"--create_bed\" must also be "\
+                  "given."
+            log.error(err)
+            sys.exit(err)
+
+        # if no core functions selected:
         if list(selected_args[i] for i in [0,1,3]) == [False, False, False]:
-            print("Error: Must select at least one of the following options:",
-                  "\"--gene_list\", \"--create_bed\", \"--download_directory\"")
-            sys.exit()
+            err = "Error: Must select at least one of the following options: "\
+                  "\"--gene_list\", \"--create_bed\", \"--download_directory\""
+            log.error(err)
+            sys.exit(err)
 
         return True
         
