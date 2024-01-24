@@ -1,6 +1,6 @@
 # Script to import panel information and bed file into database
 # Created by Caroline Riehl
-# Last updated 12-Jan-2023
+# Last updated: Caroline Riehl - 18-Jan-2023
 
 import sqlite3
 from datetime import datetime
@@ -12,24 +12,24 @@ def import_into_database(panel_data, bed_file_link):
     This public function takes an output of NGTD_App/main.py, panel_data, 
     to upload the user requested panel appropriately  
 
-    Parameters:
-    - panel_data (dict): A dictionary containing panel information to be 
-    stored in the database
-
-      The dictionary is expected to have the following structure:
-      {
-        "r_number": str,
-        "panel_id": int,
-        "panel_version": str,
-        "signoff_status": str,
-        "genes": list of strings,
-        "hgnc_id": list of strings
-      }
-    - bed_file_link (str): a string that represents the file path of the 
-    generated bed file
+    Parameters
+    __________
+    panel_data (dict): A dictionary containing panel information to be 
+                         stored in the database
+            The dictionary is expected to have the following structure:
+            {
+                "r_number": str,
+                "panel_id": int,
+                "panel_version": str,
+                "signoff_status": str,
+                "genes": list of strings,
+                "hgnc_id": list of strings
+            }
+    bed_file_link (str): a string that represents the file path of the 
+                         generated bed file
 
     Returns:
-    - None
+    None
     """
 
     # Connect to the SQLite database
@@ -40,8 +40,8 @@ def import_into_database(panel_data, bed_file_link):
     if does_data_entry_exist(cursor, panel_data, bed_file_link) != True:
         test_info_into_database(panel_data, bed_file_link, cursor)
         print(
-            f"\nPanel information and associated bed file path "
-            "({bed_file_link}) added to the database successfully!"
+            "\nPanel information and associated bed file path "
+            f"({bed_file_link}) added to the database successfully!"
             ) 
 
     # Commit the changes
@@ -54,7 +54,7 @@ def import_into_database(panel_data, bed_file_link):
 def does_data_entry_exist(cursor, panel_data, bed_file_link):
     """Checks whether the entry exists in the database"""
 
-    # Query database for the requested test"s version
+    # Query database for the requested test's version
     cursor.execute("""
         SELECT test.panel_version
         FROM test
@@ -62,14 +62,14 @@ def does_data_entry_exist(cursor, panel_data, bed_file_link):
     """, (panel_data["r_number"],))
 
     # Retrives previous query result
-    r_number = cursor.fetchone()
-
+    panel_version = cursor.fetchone()
+ 
     # Checks whether previous query found a record of the test in the database
-    if r_number:
+    if panel_version:
         print("\nThis panel is already saved in the database", end = " ")
 
         # Checks if the test's version record is the same as the requested one
-        if r_number[0] == panel_data["panel_version"]:
+        if panel_version[0] == panel_data["panel_version"]:
             print("under the same version", end = " ")
 
             cursor.execute("""
@@ -94,6 +94,7 @@ def does_data_entry_exist(cursor, panel_data, bed_file_link):
                     "This panel with the new reference build will therefore " 
                     "be added to the database."
                     )
+                return False
 
         else:
             print(
