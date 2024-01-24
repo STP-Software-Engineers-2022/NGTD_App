@@ -6,7 +6,6 @@ Author: Niall Gallop
 import os
 import shutil
 import main as target
-import src.get_directory as getdir
 
 """
 Test use cases:
