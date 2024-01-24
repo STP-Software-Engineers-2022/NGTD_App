@@ -75,12 +75,16 @@ class CommandLineInterface:
         selected = [False, False, False, False]
         if (self.args.gene_list == True):
             selected[0] = True
+            log.debug("--gene_list selected")
         if (self.args.create_bed == True):
             selected[1] = True
+            log.debug("--create_bed selected")
         if (self.args.r_number is not None):
             selected[2] = True
+            log.debug("--r_number provided")
         if (self.args.download_directory is not None):
             selected[3] = True
+            log.debug("--download_directory selected")
         return selected
 
     def __handle_options(self):

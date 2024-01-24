@@ -79,10 +79,10 @@ def main(argv=None):
         data_import.import_into_database(panel_info, bed_file_link)
     
     else:
-        print(
-            "No panel information added to the database. "
+        msg = "No panel information added to the database. "\
             "Run with -b to add the data."
-            )
+        log.info(msg)
+        print(msg)
 
     return True
 
