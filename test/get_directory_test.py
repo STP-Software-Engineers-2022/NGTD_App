@@ -18,7 +18,7 @@ def directory_instance(tmp_path):
     temporary download directory.
     """
     args_mock = ArgsMock(download_directory=str(tmp_path))
-    return get_directory.get_directory(args_mock)
+    return get_directory.GetDirectory(args_mock)
 
 # ... other fixtures ...
 
