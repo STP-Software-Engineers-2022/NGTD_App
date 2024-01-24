@@ -47,12 +47,20 @@ def main(argv=None):
     # initialise cli object
     parsed = cli.CommandLineInterface(sys.argv[1:])
     args = parsed.args
+
+    # if download directory selected, download and check success
     if args.download_directory is not None:
         ngtd_dir = get_dir.GetDirectory(args)
-        ngtd_dir.download_doc()
-    
-    if args.r_number is None:
-        return True
+        check_download = ngtd_dir.download_doc()
+        if check_download:
+            log.debug("-d: Completed successfully")
+        else:
+            log.error("-d: Could not complete")
+        # If no -r arg, end program
+        if args.r_number is None:
+            return True
+    else:
+        pass
     
     # Create an instance of MyRequests
 
