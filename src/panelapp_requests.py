@@ -266,11 +266,12 @@ class MyRequests:
                     "panel_version": p_version, "signoff_status":  \
                     signoff, "genes": g_list, "hgnc_id_list": h_list}
 
-                print(r_dict) # for checking todelete
                 return r_dict
             else:
                 print(" ".join(["\nAnalysis ended due to", r_code, 
                                 "not being GMS signed off."]))
+
+
                 
         elif signoff == "GMS signed-off":
             r_dict = {"r_number": r_code, "panel_id": panel_id, \

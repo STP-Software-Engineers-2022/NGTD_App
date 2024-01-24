@@ -1,5 +1,6 @@
 """
 This module provides the Logger class for creating and configuring loggers.
+Author: Niall Gallop
 """
 import os
 import logging

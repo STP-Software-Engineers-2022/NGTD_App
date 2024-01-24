@@ -17,7 +17,8 @@ from config import log
 from urllib.request import urlopen
 from urllib.error import URLError
 
-class get_directory():
+
+class GetDirectory:
     """
     The get_directory class handles the downloading of the National 
     Genomic Test Directory spreadsheet.
