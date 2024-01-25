@@ -261,26 +261,34 @@ class MyRequests:
         # Ask user for input in case the panel is not GMS signed
         if signoff == "not GMS signed-off":
             log.info("Not GMS-signed off, ask user to continue")
-            user_input = input("Do you want to continue with the \
-                analysis? (yes/no): ").lower()
-            log.info(f"User selected {user_input}")
+            while True:
+                user_input = input("Do you want to continue with the \
+                    analysis? (yes/no): ").lower()
+                log.info(f"User selected {user_input}")
 
-            if user_input == "yes":
-                r_dict = {"r_number": r_code, "panel_id": panel_id, \
-                    "panel_version": p_version, "signoff_status":  \
-                    signoff, "genes": g_list, "hgnc_id_list": h_list}
-                log.debug("non-GMS signed-off panel added to database")
-                return r_dict
-            
-            else:
-                print(" ".join(["\nAnalysis ended due to", r_code, 
-                                "not being GMS signed off."]))
-                log.debug("non-GMS signed-off panel not added to database")
+                if user_input == "yes":
+                    r_dict = {"r_number": r_code, "panel_id": panel_id, \
+                        "panel_version": p_version, "signoff_status":  \
+                        signoff, "genes": g_list, "hgnc_id_list": h_list}
+                    log.debug("non-GMS signed-off panel added to database")
+                    break
+                
+                elif user_input == "no":
+                    print(" ".join(["\nAnalysis ended due to", r_code, 
+                                    "not being GMS signed off."]))
+                    log.debug("non-GMS signed-off panel not added to database")
+                    break
+
+                else:
+                    print("Please enter 'yes' or 'no'")
+                    log.debug(f"database_postage: Incorrect input from user")
+                    continue
 
         elif signoff == "GMS signed-off":
             log.debug("GMS signed-off panel")
             r_dict = {"r_number": r_code, "panel_id": panel_id, \
                 "panel_version": p_version, "signoff_status": signoff, \
                 "genes": g_list, "hgnc_id_list": h_list}
-            return r_dict
+            
+        return r_dict
             
