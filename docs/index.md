@@ -48,12 +48,12 @@ See the [MANUAL.md](MANUAL.md) document for full instructions on how to run the 
 
 ## Scripts
 The programme uses the following scripts:  
-1. **main.py**: the main script that is used to run all other scripts  
-2. **command_line_interface.py**: script to capture all arguments provided by the user  
-3. **get_directory.py**: script to download the current [NHS National Genomic Test Directory](https://www.england.nhs.uk/publication/national-genomic-test-directories/) document into the docs/ directory  
-4. **panelapp_request.py**: script to query the [PanelApp API](https://panelapp.genomicsengland.co.uk/api/docs/) using the panel R number provided by the user  
-5. **create_beds.py**: script to create the bed file using [VariantValidator rest API](https://rest.variantvalidator.org) depending on the R number and the reference genome build provided by the user  
-6. **data_import.py**: script to upload panel information and bed file location to the database
+1. main.py: the main script that is used to run all other scripts
+2. command_line_interface.py: script to capture all arguments provided by the user
+3. get_directory.py: script to download the current [NHS National Genomic Test Directory](https://www.england.nhs.uk/publication/national-genomic-test-directories/) document into the docs/ directory
+4. panelapp_request.py: script to query the [PanelApp API](https://panelapp.genomicsengland.co.uk/api/docs/) using the panel R number provided by the user
+5. create_beds.py: script to create the bed file using [VariantValidator rest API](https://rest.variantvalidator.org) depending on the R number and the reference genome build provided by the user
+6. data_import.py: script to upload panel information and bed file location to the database
 
 ### Script Flow UML
 Below is a UML of the flow of the different scripts showcasing their key classes and the functions that are called.
