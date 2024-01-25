@@ -1,5 +1,5 @@
-# NGTD_App
-### As part of the STP Software Engineering Module at the University of Manchester
+# README.md
+### NGTD_App as part of the STP Software Engineering Module at the University of Manchester
 Date created: 07-Nov-2023  
 Date modified: 24-Jan-2024  
 Authors: Dolapo Ajayi, Niall Gallop, Caroline Riehl, Danni Scales  
@@ -23,8 +23,22 @@ NGTD_App will work locally on Mac OS X or Linux-compatible computers.
 
 ### Required Software:
 - Python 3
-- Pytest version 7.4.2
-- SQLite version 3.41.2  
+- Pytest v7.4.2
+- Pytest-cov v4.1.0
+- SQLite v3.41.2 
+- Coverage v7.4.0
+- Argparse v1.4.0
+- Config v0.5.1
+- Certifi v2023.7.22
+- Charsey-normalizer v3.3.2
+- Idna v3.4
+- Iniconfig v2.0.0
+- Packaging v23.2
+- Pluggy v1.3.0
+- Requests v2.31.0
+- Setuptools v68.0.0
+- Urllib3 v2.0.7
+- Wheel v0.37.1
 
 ## Installation Manual
 See the [INSTALL.md](INSTALL.md) document for full instructions.  
@@ -47,14 +61,14 @@ Below is a UML of the flow of the different scripts showcasing their key classes
 ![Alt text](img/script_uml.png)  
 
 ## Database
-The database, `NGTD.db`, was created using the script `database.py`.  
+The database, `ngtd.db`, was created using the script `database.py`.  
 It holds 4 tables (*patient*, *test*, *gene*, *bedfile*) and 2 join tables (*patient2test*, *test2gene*).  
 The *patient2test* table links patients to tests using the corresponding tables' primary keys. Tests are linked to genes in a similar manner with *test2gene*.  
 
 Please find the UML of the database below:  
 ![Alt text](img/database_uml.png)  
 
-`NGTD.db` already holds some data which may be viewed using a database tool such as DBeaver. The tables *test*, *gene*, *test2gene*, and *bedfile* were populated by running the `main.py` script. Dummy patient data was added to the database and linked to tests via *patient2test* manually.  
+`ngtd.db` already holds some data which may be viewed using a database tool such as DBeaver. The tables *test*, *gene*, *test2gene*, and *bedfile* were populated by running the `main.py` script. Dummy patient data was added to the database and linked to tests via *patient2test* manually.  
 
 **Please see the [MANUAL.md](MANUAL.md) document for further details on the database structure and content.** 
 
@@ -67,9 +81,10 @@ Unit and functional tests have been developed for the following scripts:
 | command_line_interface.py | cli_test.py |
 | create_beds.py | create_beds_test.py |
 | data_import.py | data_import_test.py |
-| panelapp_requests.py | panelapp_requests_test.py |  
+| panelapp_requests.py | panelapp_requests_test.py |
+| get_directory.py | get_directory_test.py |
 
-Additionally, a `conftest.py` file was created to hold the fixture for `data_import_test.py`. Scripts `database.py`, `logger.py`, and `get_directory.py` do not yet have unit and functional tests; this was raised under issue XXXXX.  
+Additionally, a `conftest.py` file was created to hold the fixture for `data_import_test.py`. 
 
 Tests can be run automatically when running the `pytest` command from the NGTD_App directory.  
 1. Move to NGTD_App directory

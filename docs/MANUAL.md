@@ -102,7 +102,7 @@ Below is a UML of the flow of the different scripts showcasing their key classes
 ![Alt text](img/script_uml.png)
 
 ## Database
-The database, `NGTD.db`, was created using the script `database.py`.  
+The database, `ngtd.db`, was created using the script `database.py`.  
 
 It holds 6 tables:
 - *patient*: contains patient data, including a record number, first name, surname, date of birth, clinical features, sex
@@ -116,7 +116,7 @@ It holds 6 tables:
 ![Alt text](img/database_uml.png)  
 
 ### Database content
-`NGTD.db` already holds some data which may be viewed using a database tool such as [DBeaver](https://dbeaver.io). The tables *test*, *gene*, *test2gene*, and *bedfile* were populated by running the `main.py` script. Dummy patient data was added to the database and linked to tests via *patient2test* manually.  
+`ngtd.db` already holds some data which may be viewed using a database tool such as [DBeaver](https://dbeaver.io). The tables *test*, *gene*, *test2gene*, and *bedfile* were populated by running the `main.py` script. Dummy patient data was added to the database and linked to tests via *patient2test* manually.  
 
 **Table *patient***  
 ![Alt text](img/patient_DB.png)  
@@ -179,15 +179,8 @@ python3 main.py -d
 This document will by default be saved within the `docs/` directory and can then be used to identify the valid R number associated with a clinical indication. 
 
 ### Investigate database
-To perform checks on the database and verify that data has been added as expected, NGTD.db may be opened using a database administration tool such as [DBeaver](https://dbeaver.io). 
+To perform checks on the database and verify that data has been added as expected, `ngtd.db` may be opened using a database administration tool such as [DBeaver](https://dbeaver.io).  
 
-DBeaver can be downloaded using the following [link](https://dbeaver.io/download/). DBeaver Community is a free and open source tool. Select the application corresponding to your local operating system.  
-![Alt text](img/dbeaver_install_1.png)  
+DBeaver can be downloaded using the following [link](https://dbeaver.io/download/). DBeaver Community is a free and open source tool. Select the application corresponding to your local operating system. Further guidance may be found under this [link](https://dbeaver.com/docs/dbeaver/).  
 
-Once installed, click on the "New Database Connection" icon on the top left of the page and select SQLite.   
-![Alt text](img/dbeaver_install_2.png)  
-
-Provide the path to the NGTD.db database within the "Path" field and click "Finish".  
-![Alt text](img/dbeaver_install_3.png)  
-
-The contents of the database can then be viewed.
+The contents of the database can then be viewed.  
