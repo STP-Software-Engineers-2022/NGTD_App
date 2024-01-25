@@ -1,4 +1,4 @@
-FROM continuumio/miniconda3
+FROM ubuntu:latest
 
 # Set the working directory to /app
 WORKDIR /NGTD_App
@@ -7,10 +7,12 @@ WORKDIR /NGTD_App
 COPY . /NGTD_App
 
 # Create conda environment using the environment.yml
-RUN conda env create -n ngtd --file environment.yml
+RUN apt-get update
+
+RUN apt-get install -y python3-pip
 
 # Install dependencies from requirements.txt
 RUN pip install -r docs/requirements.txt
 
 # Define the entrypoint 
-ENTRYPOINT ["conda", "run", "-n", "ngtd", "python", "main.py"]
+ENTRYPOINT ["python3", "main.py"]
