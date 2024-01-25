@@ -4,12 +4,12 @@ Author: Caroline Riehl
 Last Updated: Caroline Riehl - 21-Jan-2024
 """
 
-import pytest
-import sqlite3
 import src.data_import as data_import
 from datetime import datetime
+from config import log
 
-def test_does_data_entry_exist_test_exists_same_version_ref(sqlite_cursor):
+def test_does_data_entry_exist_test_exists_same_version_ref(
+        sqlite_cursor, caplog):
     """ Test that existing test with same version + reference returns True"""
 
     panel_data = {
@@ -43,11 +43,12 @@ def test_does_data_entry_exist_test_exists_same_version_ref(sqlite_cursor):
                                                bed_file_link)
 
     result_expected = True
-
+    assert "This data entry will therefore not be added again" in caplog.text
     assert result == result_expected
 
 
-def test_does_data_entry_exist_test_exist_same_version_dif_ref(sqlite_cursor):
+def test_does_data_entry_exist_test_exist_same_version_dif_ref(
+        sqlite_cursor, caplog):
     """ Test that existing test with same version, dif reference returns F """
 
     panel_data = {
@@ -80,12 +81,14 @@ def test_does_data_entry_exist_test_exist_same_version_dif_ref(sqlite_cursor):
                                                panel_data, 
                                                bed_file_link)
 
+    
     result_expected = False
-
+    assert "This panel with the new reference build will" in caplog.text
     assert result == result_expected
 
 
-def test_does_data_entry_exist_existing_test_dif_version(sqlite_cursor):
+def test_does_data_entry_exist_existing_test_dif_version(
+        sqlite_cursor, caplog):
     """ Test that existing test with different version returns False"""
 
     panel_data = {
@@ -119,11 +122,11 @@ def test_does_data_entry_exist_existing_test_dif_version(sqlite_cursor):
                                                bed_file_link)
 
     result_expected = False
-
+    assert "information of this newer version will therefore" in caplog.text
     assert result == result_expected
 
 
-def test_does_data_entry_not_existing_test(sqlite_cursor):
+def test_does_data_entry_not_existing_test(sqlite_cursor, caplog):
     """ Test that not existing test returns False"""
 
     panel_data = {
@@ -161,7 +164,7 @@ def test_does_data_entry_not_existing_test(sqlite_cursor):
                                                bed_file_link)
 
     result_expected = False
-
+    assert "This panel has not been saved in the database yet" in caplog.text
     assert result == result_expected
 
 
