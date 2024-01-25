@@ -6,7 +6,6 @@ Last Updated: Caroline Riehl - 21-Jan-2024
 
 import src.data_import as data_import
 from datetime import datetime
-from config import log
 
 def test_does_data_entry_exist_test_exists_same_version_ref(
         sqlite_cursor, caplog):

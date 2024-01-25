@@ -6,8 +6,6 @@ import pytest
 from unittest.mock import patch, MagicMock
 import src.get_directory as get_directory
 
-from config import td_url as url
-
 class ArgsMock:
     def __init__(self, download_directory):
         self.download_directory = download_directory
@@ -23,7 +21,7 @@ def directory_instance(tmp_path):
 
 # ... other fixtures ...
 
-def test_successful_download(directory_instance, capsys, tmp_path):
+def test_successful_download(directory_instance, tmp_path):
     """
     Test successful download of the document.
     """
@@ -55,7 +53,7 @@ def test_successful_download(directory_instance, capsys, tmp_path):
 
     assert len(files) > 0
 
-def test_unsuccessful_download_missing_link(directory_instance, capsys, tmp_path):
+def test_unsuccessful_download_missing_link(directory_instance, tmp_path):
     """
     Test unsuccessful download due to missing download link in HTML content.
     """

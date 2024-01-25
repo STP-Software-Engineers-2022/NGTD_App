@@ -6,7 +6,6 @@ Author: Niall Gallop
 import pytest
 import src.command_line_interface as cli
 import src.panelapp_requests as panelapp_requests
-from config import log
 
 @pytest.fixture
 def args():
