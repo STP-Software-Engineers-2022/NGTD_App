@@ -1,9 +1,11 @@
-# Script to import panel information and bed file into database
-# Created by Caroline Riehl
-# Last updated 12-Jan-2023
+"""Script to import panel information and bed file into database
+Author: Caroline Riehl
+Last Updated: Niall Gallop 24-Jan-2024
+"""
 
 import sqlite3
 from datetime import datetime
+from config import log
 
 def import_into_database(panel_data, bed_file_link):
     """
@@ -12,24 +14,24 @@ def import_into_database(panel_data, bed_file_link):
     This public function takes an output of NGTD_App/main.py, panel_data, 
     to upload the user requested panel appropriately  
 
-    Parameters:
-    - panel_data (dict): A dictionary containing panel information to be 
-    stored in the database
-
-      The dictionary is expected to have the following structure:
-      {
-        "r_number": str,
-        "panel_id": int,
-        "panel_version": str,
-        "signoff_status": str,
-        "genes": list of strings,
-        "hgnc_id": list of strings
-      }
-    - bed_file_link (str): a string that represents the file path of the 
-    generated bed file
+    Parameters
+    __________
+    panel_data (dict): A dictionary containing panel information to be 
+                         stored in the database
+            The dictionary is expected to have the following structure:
+            {
+                "r_number": str,
+                "panel_id": int,
+                "panel_version": str,
+                "signoff_status": str,
+                "genes": list of strings,
+                "hgnc_id": list of strings
+            }
+    bed_file_link (str): a string that represents the file path of the 
+                         generated bed file
 
     Returns:
-    - None
+    None
     """
 
     # Connect to the SQLite database
@@ -39,10 +41,10 @@ def import_into_database(panel_data, bed_file_link):
     # Add test to the database if not already present with the same version
     if does_data_entry_exist(cursor, panel_data, bed_file_link) != True:
         test_info_into_database(panel_data, bed_file_link, cursor)
-        print(
-            f"\nPanel information and associated bed file path "
-            "({bed_file_link}) added to the database successfully!"
-            ) 
+        msg = "Panel information and associated bed file path" +\
+            f" ({bed_file_link}) added to the database successfully!"
+        print("\n"+msg)
+        log.info(msg)
 
     # Commit the changes
     ngtd_db.commit()
@@ -54,7 +56,8 @@ def import_into_database(panel_data, bed_file_link):
 def does_data_entry_exist(cursor, panel_data, bed_file_link):
     """Checks whether the entry exists in the database"""
 
-    # Query database for the requested test"s version
+    # Query database for the requested test's version
+    log.debug("Checking if database entry already exists...")
     cursor.execute("""
         SELECT test.panel_version
         FROM test
@@ -62,15 +65,15 @@ def does_data_entry_exist(cursor, panel_data, bed_file_link):
     """, (panel_data["r_number"],))
 
     # Retrives previous query result
-    r_number = cursor.fetchone()
-
+    panel_version = cursor.fetchone()
+ 
     # Checks whether previous query found a record of the test in the database
-    if r_number:
-        print("\nThis panel is already saved in the database", end = " ")
+    if panel_version:
+        msg = "This panel is already saved in the database"
 
         # Checks if the test's version record is the same as the requested one
-        if r_number[0] == panel_data["panel_version"]:
-            print("under the same version", end = " ")
+        if panel_version[0] == panel_data["panel_version"]:
+            msg = msg + " under the same version"
 
             cursor.execute("""
                 SELECT bedfile.id
@@ -82,31 +85,33 @@ def does_data_entry_exist(cursor, panel_data, bed_file_link):
 
             # Checks if the reference genome is the same
             if bedfile_pk is not None:
-                print(
-                    "and the same reference genome build. " 
-                    "This data entry will therefore not be added again to "
+                msg = msg + " and the same reference genome build. "+\
+                    "This data entry will therefore not be added again to "+\
                     "prevent duplications."
-                    )
+                print("\n" + msg)
+                log.debug(msg)
                 return True
             else: 
-                print(
-                    "but under a different reference genome build. "
-                    "This panel with the new reference build will therefore " 
+                msg = msg + " but under a different reference genome build. "+\
+                    "This panel with the new reference build will therefore"+\
                     "be added to the database."
-                    )
+                print("\n" + msg)
+                log.debug(msg)
+                return False
 
         else:
-            print(
-                "but under a different version. "
-                "The information of this newer version will therefore be "
+            msg = msg + " but under a different version. "+\
+                "The information of this newer version will therefore be "+\
                 "added to the database."
-                )
+            print("\n" + msg)
+            log.debug(msg)
             return False
     else:
-        print(
-            "\nThis panel has not been saved in the database yet. "
+        msg = "This panel has not been saved in the database yet. "+\
             "Panel information import to the database to proceed."
-            )
+        print("\n" + msg)
+        log.debug(msg)
+
         return False
 
 
@@ -128,7 +133,7 @@ def bed_file_link_into_bed_table(bed_file_link, cursor):
     
     # Get the last inserted ID (at this point from table "bedfile")
     bedfile_id = cursor.lastrowid
-
+    log.debug("BED file link added to database")
     return bedfile_id
 
 def panel_into_test_table(panel_data, bedfile_id, cursor):
@@ -159,7 +164,7 @@ def panel_into_test_table(panel_data, bedfile_id, cursor):
 
     # Get the last inserted ID (at this point from table "test")
     test_id = cursor.lastrowid
-
+    log.debug("Panel information added to database")
     return test_id
 
 def genes_into_gene_table(panel_data, test_id, cursor):
@@ -190,6 +195,7 @@ def genes_into_gene_table(panel_data, test_id, cursor):
                 test_id, 
                 gene_id[0]
                 ))
+            log.debug("hgnc already exists - PK added to database")
         
         # If hgnc id does not already exist, new entry created
         else:
@@ -220,6 +226,7 @@ def genes_into_gene_table(panel_data, test_id, cursor):
             """, (
                 test_id, 
                 gene_id))
+            log.debug("New entry created for hgnc in database")
 
 
 if __name__ == "__main__":
