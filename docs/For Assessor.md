@@ -50,6 +50,15 @@ Following a meeting with stakeholders (Pete and Andrew) they requested a databas
 
 ## Linux OS details
 
+Project was developed on Mac OS >= 12.3
+ - >= 12.3, Intel
+ - >= 13.6.3 Apple Silicon
+
+Project has been tested on a Linux virtual machine:
+ - Ubuntu 22.04.3 (LTS)
+ - x86-64 architecture
+ - Kernel: Linux 6.5.0-14-generic
+
 ## Outstanding Issues
 
 Outstanding Issues are logged in github - the easiest way to view the issues closed vs the issues outstanding it to view the Github Project Kanban board.
