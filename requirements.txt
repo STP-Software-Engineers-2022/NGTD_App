@@ -1,4 +1,0 @@
-argparse==1.4.0
-config==0.5.1
-coverage==7.4.0 
-pytest-cov==4.1.0

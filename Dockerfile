@@ -10,7 +10,7 @@ COPY . /NGTD_App
 RUN conda env create -n ngtd --file environment.yml
 
 # Install dependencies from requirements.txt
-RUN pip install -r requirements.txt
+RUN pip install -r docs/requirements.txt
 
 # Define the entrypoint 
 ENTRYPOINT ["conda", "run", "-n", "ngtd", "python", "main.py"]
