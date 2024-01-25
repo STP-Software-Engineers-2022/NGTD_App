@@ -3,10 +3,10 @@ Date created: 23-Jan-2024
 Date modified: 24-Jan-2024  
 Authors: Caroline Riehl  
 
-# Installation 
+## Installation 
 See the [INSTALL.md](INSTALL.md) document for full instructions.
 
-# Operation
+## Operation
 NGTD_App is operated by running the python `main.py` script. Running the script with the `-h` flag shows the different options of how to run the tool.
 
 ```
@@ -96,7 +96,6 @@ The programme uses the following scripts:
 5. **`data_import.py`**: script to upload panel information and bed file location to the database
 6. **`get_directory.py`**: script to download the current [National Genomic Test Directory](https://www.england.nhs.uk/publication/national-genomic-test-directories/) document into the `NGTD_App/docs/` directory
 
-
 ### Script Flow UML
 Below is a UML of the flow of the different scripts showcasing their key classes and the functions that are called.
 ![Alt text](img/script_uml.png)
@@ -142,7 +141,6 @@ To minimise storage issues, `logger.py` creates a rotating log file that resets 
 All logs are stored in NGTD_App/logs.
 
 ## Basic Debugging 
-
 ### Error handling
 The NGTD_App was designed to check for common mistakes and provide helpful error messages when needed. These will be recorded in the `logs/` directory and will also be printed on the command line interface.
 
