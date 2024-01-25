@@ -57,4 +57,6 @@ Primarily, the requested jenkinsfile is issued for a later sprint but is not a p
 
 ### Bugs
 
-We detected a bug in the program when some valid R numbers are passed to the program. This bug is issued for a later sprint. We have not been able to develop a comprehensive list of R numbers that are affected but we have noticed it with R444 and R419.
+We detected a bug in the program when some valid R numbers are passed to the program. This bug is issued (42) for a later sprint. We have not been able to develop a comprehensive list of R numbers that are affected but we have noticed it with R444 and R419.
+ - R444: Returns that the panel doesn't exists according to panelapp_requests
+ - R419: Fails with -b during bed file creation. A large bed file is written, but the writing process fails to complete resulting in the program terminating through a sys.exit(). The resulting bed file is not posted to the database as it should be.
