@@ -104,12 +104,12 @@ Below is a UML of the flow of the different scripts showcasing their key classes
 The database, `ngtd.db`, was created using the script `database.py`.  
 
 It holds 6 tables:  
-- *patient*: contains patient data, including a record number, first name, surname, date of birth, clinical features, sex  
-- *test*: contains test information, including a panel's R number, id, version, signoff status, bedfile id (foreign key of *bedfile* table), and the date it was added to the database  
-- *gene*: contains gene information, including its symbol and HGNC ID (which remains the same when the symbol changes)  
-- *bedfile*: contains the file path of the bed file's location  
-- *patient2test*: a join table that links patient records to tests using these tables' primary keys  
-- *test2gene*: a join table that links tests to genes using these tables' primary keys  
+- ***patient***: contains patient data, including a record number, first name, surname, date of birth, clinical features, sex  
+- ***test***: contains test information, including a panel's R number, id, version, signoff status, bedfile id (foreign key of *bedfile* table), and the date it was added to the database  
+- ***gene***: contains gene information, including its symbol and HGNC ID (which remains the same when the symbol changes)  
+- ***bedfile***: contains the file path of the bed file's location  
+- ***patient2test***: a join table that links patient records to tests using these tables' primary keys  
+- ***test2gene***: a join table that links tests to genes using these tables' primary keys  
 
 ### Database UML 
 ![Alt text](img/database_uml.png)  

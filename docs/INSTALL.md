@@ -6,9 +6,9 @@ Authors: Danni Scales
 This document provides instructions for installing the National Genomic Test Directory (NGTD) application and accompanying database on Mac OS X computers. We recommended [installing through Docker](#install-through-docker) for all other systems, or if you encounter any installation issues.
 
 ## Pre-requisites
-Required:
-  - Python 3.9 or above
-  - Pytest version 7.4.2 or above 
+Required:  
+  - Python 3.9 or above  
+  - Pytest version 7.4.2 or above  
 
 ### Download the source code
 If you havent already, please download the appropriate version of [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) for your OS before proceeding.
