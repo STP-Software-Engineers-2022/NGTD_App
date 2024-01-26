@@ -1,16 +1,16 @@
-# Installation
-Date created: 24-Jan-2024
-Date modified: 24-Jan-2024
-Authors: Danni Scales
+# INSTALLATION GUIDE
+Date created: 24-Jan-2024  
+Date modified: 26-Jan-2024  
+Authors: Danni Scales  
 
 This document provides instructions for installing the National Genomic Test Directory (NGTD) application and accompanying database on Mac OS X and Linux Ubuntu computers. We recommend [installing locally](#local-install) for Linux Ubuntu and Mac OS but if there are any installation issues, or if using another OS, then [installing through Docker](#install-through-docker) is another option.
 
 ## Pre-requisites
+
 Required:
  - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
  - Local install: Anaconda or [Miniconda](https://docs.conda.io/projects/miniconda/en/latest/)
  - Container install: [Docker Engine](https://docs.docker.com/engine/install/ubuntu/) (Linux) or [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Mac OS)
-
 
 
 ## Download the source code
@@ -31,22 +31,22 @@ When installing the NGTD app, a python environment should be created to install 
 
 If you havent already, please download the appropriate version of [Miniconda](https://docs.conda.io/projects/miniconda/en/latest/) for your OS before proceeding.
 
-1. Create a conda [environment](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment) from the ```environment.yml``` file, which specifies the dependencies required for the application to run: 
+Create a conda [environment](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#activating-an-environment) from the ```environment.yml``` file, which specifies the dependencies required for the application to run: 
 ```
 conda env create -f environment.yml
 ```
 
-2. Activate the environment:
+Activate the environment:
 ```
 conda activate ngtd
 ```
 
 ### Install the NGTD app
-1. Use ```pip``` to install the ```pyproject.toml``` file into the current directory, which contains the build system requirements for the application:
+Use ```pip``` to install the ```pyproject.toml``` file into the current directory, which contains the build system requirements for the application:
 ```
 pip install .
 ```
-2. Verify that NGTD app has been successfully installed:
+Verify that NGTD app has been successfully installed:
 ```
 python main.py --help
 ```
@@ -54,7 +54,7 @@ The installation has been successful if you are presented with the following out
 ```
 usage: main.py [-h] [-g] [-b] [-r R_NUMBER] [-d [DOWNLOAD_DIRECTORY]]
 
-options:
+optional arguments:
   -h, --help            show this help message and exit
   -g, --gene_list       Return a list of genes from a gene panel (provide the R number via the -r flag)
   -b, --create_bed      Generate a bed file for a gene panel (provide the R number via the -r flag). Outputs to bed_repository/
@@ -98,17 +98,18 @@ options:
 ### For Mac OS
 1. If you havent already, please download and install [Docker Desktop](https://www.docker.com/products/docker-desktop/) 
 
-2. In the command line, launch the Docker daemon using Docker Desktop:
+
+In the command line, launch the Docker daemon using Docker Desktop:
 ```
 open -a Docker
 ```
 
-3. Build a Docker image from the Dockerfile, which is located in the current directory. The ```--tag``` (```-t```) flag is used to name the Docker image: 
+Build a Docker image from the Dockerfile, which is located in the current directory. The ```--tag``` (```-t```) flag is used to name the Docker image: 
 ```
 docker build -t ngtd .
 ```
 
-4. Run the application in a Docker container, specifying the image reference to create the container:
+Run the application in a Docker container, specifying the image reference to create the container:
 ```
 docker run -it ngtd --help
 ```
