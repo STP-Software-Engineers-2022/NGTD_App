@@ -1,4 +1,4 @@
-# Installation guide
+# INSTALLATION GUIDE
 Date created: 24-Jan-2024  
 Date modified: 26-Jan-2024  
 Authors: Danni Scales  
@@ -7,8 +7,8 @@ This document provides instructions for installing the National Genomic Test Dir
 
 ## Pre-requisites
 Required:
-    - Python 3.9 or above
-    - Pytest version 7.4.2 or above 
+  - Python 3.9 or above
+  - Pytest version 7.4.2 or above 
 
 ### Download the source code
 If you havent already, please download the appropriate version of [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) for your OS before proceeding.

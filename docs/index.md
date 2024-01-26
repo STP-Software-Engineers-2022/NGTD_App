@@ -1,11 +1,10 @@
 # README.md
-### NGTD_App as part of the STP Software Engineering Module at the University of Manchester
 Date created: 07-Nov-2023  
-Date modified: 24-Jan-2024  
+Date modified: 26-Jan-2024  
 Authors: Dolapo Ajayi, Niall Gallop, Caroline Riehl, Danni Scales  
 
 ## About
-A tool to manage gene panels for [NHS National Genomic Test Directory](https://www.england.nhs.uk/publication/national-genomic-test-directories/) tests in the laboratory
+The NGTD app is a tool to manage gene panels for [NHS National Genomic Test Directory](https://www.england.nhs.uk/publication/national-genomic-test-directories/) tests in the laboratory
 
 ### Project Aims:
 1. Find a relevant gene panel for a genomic test to assist analysis of sequence data
@@ -25,7 +24,6 @@ NGTD_App will work locally on Mac OS X or Linux-compatible computers.
 - Python 3
 - Pytest v7.4.2
 - Pytest-cov v4.1.0
-- SQLite v3.41.2 
 - Coverage v7.4.0
 - Argparse v1.4.0
 - Config v0.5.1
@@ -48,12 +46,12 @@ See the [MANUAL.md](MANUAL.md) document for full instructions on how to run the 
 
 ## Scripts
 The programme uses the following scripts:  
-1. main.py: the main script that is used to run all other scripts  
-2. command_line_interface.py: script to capture all arguments provided by the user  
-3. get_directory.py: script to download the current [NHS National Genomic Test Directory](https://www.england.nhs.uk/publication/national-genomic-test-directories/) document into the docs/ directory  
-4. panelapp_request.py: script to query the [PanelApp API](https://panelapp.genomicsengland.co.uk/api/docs/) using the panel R number provided by the user  
-5. create_beds.py: script to create the bed file using [VariantValidator rest API](https://rest.variantvalidator.org) depending on the R number and the reference genome build provided by the user  
-6. data_import.py: script to upload panel information and bed file location to the database  
+1. `main.py`: the main script that is used to run all other scripts  
+2. `command_line_interface.py`: script to capture all arguments provided by the user  
+3. `get_directory.py`: script to download the current [NHS National Genomic Test Directory](https://www.england.nhs.uk/publication/national-genomic-test-directories/) document into the docs/ directory  
+4. `panelapp_request.py`: script to query the [PanelApp API](https://panelapp.genomicsengland.co.uk/api/docs/) using the panel R number provided by the user  
+5. `create_beds.py`: script to create the bed file using [VariantValidator rest API](https://rest.variantvalidator.org) depending on the R number and the reference genome build provided by the user  
+6. `data_import.py`: script to upload panel information and bed file location to the database  
 
 ### Script Flow UML
 Below is a UML of the flow of the different scripts showcasing their key classes and the functions that are called.
@@ -86,9 +84,7 @@ Unit and functional tests have been developed for the following scripts:
 
 Additionally, a `conftest.py` file was created to hold the fixture for `data_import_test.py`. 
 
-Tests can be run automatically when running the `pytest` command from the NGTD_App directory:  
-
-Move to NGTD_App directory
+Tests can be run automatically when running the `pytest` command from the NGTD_App directory  
 ```
 cd NGTD_App
 ```

@@ -1,6 +1,6 @@
 # USER MANUAL
 Date created: 23-Jan-2024  
-Date modified: 24-Jan-2024  
+Date modified: 26-Jan-2024  
 Authors: Caroline Riehl  
 
 ## Installation 
@@ -80,7 +80,7 @@ It can be found in: ~/NGTD_App/docs/Rare-and-inherited-disease-national-genomic-
 The `-r` flag to provide a valid panel R number is always required when using flags `-b` and `-g`.  
 Flags `-b`, `-g`, `-d` may all be used at the same time.
 
-The following flag combinations are also valid:
+The following flag combinations are also valid:  
 - `-r [arg] -g -b`  
 - `-d -r`  
 - `-d -r [arg] -g`  
@@ -88,7 +88,7 @@ The following flag combinations are also valid:
 - `-d -r [arg] -g -b`    
 
 ## Scripts
-The programme uses the following scripts:
+The programme uses the following scripts:  
 1. **`main.py`**: the main script that is used to run all other scripts  
 2. **`command_line_interface.py`**: script to capture all user arguments provided by the user  
 3. **`panelapp_request.py`**: script to query the [PanelApp API](https://panelapp.genomicsengland.co.uk/api/docs/) using the panel R number provided by the user  
@@ -103,7 +103,7 @@ Below is a UML of the flow of the different scripts showcasing their key classes
 ## Database
 The database, `ngtd.db`, was created using the script `database.py`.  
 
-It holds 6 tables:
+It holds 6 tables:  
 - *patient*: contains patient data, including a record number, first name, surname, date of birth, clinical features, sex  
 - *test*: contains test information, including a panel's R number, id, version, signoff status, bedfile id (foreign key of *bedfile* table), and the date it was added to the database  
 - *gene*: contains gene information, including its symbol and HGNC ID (which remains the same when the symbol changes)  

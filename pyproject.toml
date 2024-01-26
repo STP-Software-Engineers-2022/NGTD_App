@@ -59,7 +59,6 @@ classifiers = [
 ]
 
 [project.urls]
-# Documentation = "https://readthedocs.org"
 Repository = "https://github.com/STP-Software-Engineers-2022/NGTD_App"
 Issues = "https://github.com/STP-Software-Engineers-2022/NGTD_App/issues"
-# Changelog = "https://github.com/me/spam/blob/master/CHANGELOG.md"
+Documentation = "https://ngtd-app-ngtd-app.readthedocs-hosted.com/en/latest/"
