@@ -103,18 +103,6 @@ optional arguments:
                         docs directory
 ```
 
-4. Updates to the database, downloaded files and created beds are kept in the container. Run the following code to open an interactive session in the container to interact with these files:
-```
-# Find the container ID and copy it for the next step
-sudo docker ps -a
-
-# Commit your latest container to a new image
-sudo docker commit [CONTAINER ID] [NEW_IMAGE_NAME]
-
-# Start a terminal inside your container
-sudo docker run -it --entrypoint=sh [NEW_IMAGE_NAME]
-```
-
 ### For Mac OS
 1. If you havent already, please download and install [Docker Desktop](https://www.docker.com/products/docker-desktop/) 
 
@@ -149,4 +137,3 @@ optional arguments:
                         Please input an output location, default output to
                         docs directory
 ```
-5. Updates to the database, downloaded files and created beds are kept in the container. These can be accessed for Docker Desktop or at the commandline.
