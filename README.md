@@ -40,7 +40,7 @@ Many online resources agree that the `pyproject.toml` file should be used to rep
 2. A 'container' install using Docker. The Dockerfile includes reference to the python packages in the `requirements.txt`.
 
 ## Use of `main.py` nomenclature
-`main.py` was used an an initial placeholder main script file to be executed. However, this stuck around too long and became embedded in the documentation. 
+`main.py` was used an an initial placeholder main script file to be executed. However, this stuck around too long and became embedded in the documentation. It would be changd in a future sprint.
 
 ## Populated Database
 Following a meeting with stakeholders (Pete and Andrew) they requested a database be provided, populated with dummy data for demonstration purposes. The ngtd.db database in the repository is therefore there to fulfill that purpose. Under normal circumstances, it would not be included and the database should initialise during the first run.
@@ -48,7 +48,7 @@ Following a meeting with stakeholders (Pete and Andrew) they requested a databas
 # Technical Details
 ## Linux OS details
 Project was developed on Mac OS >= 12.3
- - >= 12.3, Intel
+ - >= 12.3 Intel processor
  - >= 13.6.3 Apple Silicon
 
 Project has been tested on a Linux virtual machine:
@@ -64,4 +64,5 @@ Primarily, the requested jenkinsfile is issued for a later sprint but is not a p
 ### Bugs
 We detected a bug in the program when some valid R numbers are passed to the program. This bug is issued (42) for a later sprint. We have not been able to develop a comprehensive list of R numbers that are affected but we have noticed it with R444 and R419.  
  - R444: Returns that the panel doesn't exists according to panelapp_requests  
- - R419: Fails with -b during bed file creation. A large bed file is written, but the writing process fails to complete resulting in the program terminating through a sys.exit(). The resulting bed file is not posted to the database as it should be.  
+ - R419: Fails with -b during bed file creation. A large bed file is written, but the writing process fails to complete resulting in the program terminating through a sys.exit(). The resulting bed file is not posted to the database as it should be.
+ 
