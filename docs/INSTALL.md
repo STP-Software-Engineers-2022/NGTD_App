@@ -3,7 +3,7 @@ Date created: 24-Jan-2024
 Date modified: 26-Jan-2024  
 Authors: Danni Scales  
 
-This document provides instructions for installing the National Genomic Test Directory (NGTD) application and accompanying database on Mac OS X and Linux Ubuntu computers. We recommend installing locally by downloading the [installing through Docker](#install-through-docker) for all other systems, or if you encounter any installation issues.
+This document provides instructions for installing the National Genomic Test Directory (NGTD) application and accompanying database on Mac OS X and Linux Ubuntu computers. We recommend [installing locally](#local-install) for Linux Ubuntu and Mac OS but if there are any installation issues, or if using another OS, then [installing through Docker](#install-through-docker) is another option.
 
 ## Pre-requisites
 
@@ -54,19 +54,14 @@ The installation has been successful if you are presented with the following out
 ```
 usage: main.py [-h] [-g] [-b] [-r R_NUMBER] [-d [DOWNLOAD_DIRECTORY]]
 
-options:
+optional arguments:
   -h, --help            show this help message and exit
-  -g, --gene_list       Return a list of genes from a gene panel (provide the
-                        R number via the -r flag)
-  -b, --create_bed      Generate a bed file for a gene panel (provide the R
-                        number via the -r flag). Outputs to bed_repository/
+  -g, --gene_list       Return a list of genes from a gene panel (provide the R number via the -r flag)
+  -b, --create_bed      Generate a bed file for a gene panel (provide the R number via the -r flag). Outputs to bed_repository/
   -r R_NUMBER, --r_number R_NUMBER
-                        Provide the R number from the National Genomic Test
-                        Directory that you wish to enquire about
+                        Provide the R number from the National Genomic Test Directory that you wish to enquire about
   -d [DOWNLOAD_DIRECTORY], --download_directory [DOWNLOAD_DIRECTORY]
-                        Download the latest national test directory. Please
-                        provide an output location. Outputs by default to the
-                        docs/ directory
+                        Download the latest national test directory. Please provide an output location. Outputs by default to the docs/ directory
 ```
 If there are any issues with the pyproject.toml installation, the appropriate dependencies can be added via:
 ```
@@ -90,30 +85,14 @@ The installation has been successful if you are presented with the following out
 ```
 usage: main.py [-h] [-g] [-b] [-r R_NUMBER] [-d [DOWNLOAD_DIRECTORY]]
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
-  -g, --gene_list       Return a list of gene from a gene panel for a given R
-                        number
-  -b, --create_bed      Generate a bed file for a given gene list
+  -g, --gene_list       Return a list of genes from a gene panel (provide the R number via the -r flag)
+  -b, --create_bed      Generate a bed file for a gene panel (provide the R number via the -r flag). Outputs to bed_repository/
   -r R_NUMBER, --r_number R_NUMBER
-                        Provide the R number from the Genomic Test Directory
-                        that you wish to enquire about
+                        Provide the R number from the National Genomic Test Directory that you wish to enquire about
   -d [DOWNLOAD_DIRECTORY], --download_directory [DOWNLOAD_DIRECTORY]
-                        Download the latest national test directory and save.
-                        Please input an output location, default output to
-                        docs directory
-```
-
-4. Updates to the database, downloaded files and created beds are kept in the container. Run the following code to open an interactive session in the container to interact with these files:
-```
-# Find the container ID and copy it for the next step
-sudo docker ps -a
-
-# Commit your latest container to a new image
-sudo docker commit [CONTAINER ID] [NEW_IMAGE_NAME]
-
-# Start a terminal inside your container
-sudo docker run -it --entrypoint=sh [NEW_IMAGE_NAME]
+                        Download the latest national test directory. Please provide an output location. Outputs by default to the docs/ directory
 ```
 
 ### For Mac OS
@@ -140,17 +119,10 @@ usage: main.py [-h] [-g] [-b] [-r R_NUMBER] [-d [DOWNLOAD_DIRECTORY]]
 
 options:
   -h, --help            show this help message and exit
-  -g, --gene_list       Return a list of genes from a gene panel (provide the
-                        R number via the -r flag)
-  -b, --create_bed      Generate a bed file for a gene panel (provide the R
-                        number via the -r flag). Outputs to bed_repository/
+  -g, --gene_list       Return a list of genes from a gene panel (provide the R number via the -r flag)
+  -b, --create_bed      Generate a bed file for a gene panel (provide the R number via the -r flag). Outputs to bed_repository/
   -r R_NUMBER, --r_number R_NUMBER
-                        Provide the R number from the National Genomic Test
-                        Directory that you wish to enquire about
+                        Provide the R number from the National Genomic Test Directory that you wish to enquire about
   -d [DOWNLOAD_DIRECTORY], --download_directory [DOWNLOAD_DIRECTORY]
-                        Download the latest national test directory. Please
-                        provide an output location. Outputs by default to the
-                        docs/ directory
-
+                        Download the latest national test directory. Please provide an output location. Outputs by default to the docs/ directory
 ```
-5. Updates to the database, downloaded files and created beds are kept in the container. These can be accessed for Docker Desktop or at the commandline.

@@ -7,6 +7,7 @@ Authors: Caroline Riehl
 See the [INSTALL.md](INSTALL.md) document for full instructions.
 
 ## Operation
+### If installed locally:
 NGTD_App is operated by running the python `main.py` script. Running the script with the `-h` flag shows the different options of how to run the tool.
 
 ```
@@ -25,7 +26,7 @@ options:
 
 ```
 
-## Examples
+#### Examples
 *[arg] is a valid R number from National Genomic Test Directory.*
 
 **To obtain a list of genes relating to a panel and its clinical indication:**
@@ -70,13 +71,13 @@ This panel is already saved in the database under the same version and the same 
 ```
 python3 main.py -d
 ```
-Command Line Interface output:
+Command Line Interface output example:
 ```
 Downloaded Test Directory Version 6
 It can be found in: ~/NGTD_App/docs/Rare-and-inherited-disease-national-genomic-test-directory-version-6.xlsx
 ```  
 
-### Please Note
+#### Please Note
 The `-r` flag to provide a valid panel R number is always required when using flags `-b` and `-g`.  
 Flags `-b`, `-g`, `-d` may all be used at the same time.
 
@@ -86,6 +87,48 @@ The following flag combinations are also valid:
 - `-d -r [arg] -g`  
 - `-d -r [arg] -b`  
 - `-d -r [arg] -g -b`    
+
+### If installed via Docker:
+
+The Docker is executed in a different way, but the flag options remain the same as above.
+
+#### For Linux
+
+```
+# basic usage. 
+# '-it' is necessary for user input during programme
+sudo docker run -it ngtd [args]
+
+# example
+sudo docker run -it ngtd -r R134 -g
+```
+
+Updates to the database, downloaded files and created beds are kept in the container. Run the following code to open an interactive session in the container to interact with these files:
+```
+# Find the container ID and copy it for the next step
+sudo docker ps -a
+
+# Commit your latest container to a new image
+sudo docker commit [CONTAINER ID] [NEW_IMAGE_NAME]
+
+# Start a terminal inside your container
+sudo docker run -it --entrypoint=sh [NEW_IMAGE_NAME]
+```
+
+#### For Mac OS
+
+Docker Desktop must be open in the background for the daemon to work. Then run:
+```
+# basic usage. 
+# '-it' is necessary for user input during programme
+docker run -it ngtd [args]
+
+# example
+docker run -it ngtd -r R134 -g
+```
+
+Updates to the database, downloaded files and created beds are kept in the container. These can be accessed for Docker Desktop or at the commandline.
+
 
 ## Scripts
 The programme uses the following scripts:  
