@@ -3,17 +3,20 @@ Date created: 24-Jan-2024
 Date modified: 26-Jan-2024  
 Authors: Danni Scales  
 
-This document provides instructions for installing the National Genomic Test Directory (NGTD) application and accompanying database on Mac OS X computers. We recommended [installing through Docker](#install-through-docker) for all other systems, or if you encounter any installation issues.
+This document provides instructions for installing the National Genomic Test Directory (NGTD) application and accompanying database on Mac OS X and Linux Ubuntu computers. We recommend installing locally by downloading the [installing through Docker](#install-through-docker) for all other systems, or if you encounter any installation issues.
 
 ## Pre-requisites
-Required:  
-  - Python 3.9 or above  
-  - Pytest version 7.4.2 or above  
 
-### Download the source code
+Required:
+ - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+ - Local install: Anaconda or [Miniconda](https://docs.conda.io/projects/miniconda/en/latest/)
+ - Container install: [Docker Engine](https://docs.docker.com/engine/install/ubuntu/) (Linux) or [Docker Desktop](https://www.docker.com/products/docker-desktop/) (Mac OS)
+
+
+## Download the source code
 If you havent already, please download the appropriate version of [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) for your OS before proceeding.
 
-In your terminal, clone the NGTD repository from GitHub.com onto your local machine. This will ensure you have a complete version history of all the files and folders associated with this project:
+In your terminal, clone the NGTD repository from GitHub.com onto your local machine::
 ```
 git clone https://github.com/STP-Software-Engineers-2022/NGTD_App.git
 ```
@@ -22,7 +25,8 @@ Then navigate into the NGTD_App directory:
 cd NGTD_App
 ```
 
-### Create a virual environment
+## Local Install
+### Create a virtual environment
 When installing the NGTD app, a python environment should be created to install the specific versions of dependencies needed for the package to run.
 
 If you havent already, please download the appropriate version of [Miniconda](https://docs.conda.io/projects/miniconda/en/latest/) for your OS before proceeding.
@@ -64,9 +68,57 @@ options:
                         provide an output location. Outputs by default to the
                         docs/ directory
 ```
+If there are any issues with the pyproject.toml installation, the appropriate dependencies can be added via:
+```
+pip install -r docs/requirements.txt
+```
 ---
 ## Install through Docker
-If you havent already, please download and install [Docker Desktop](https://www.docker.com/products/docker-desktop/) 
+### For Linux Ubuntu
+1. If you haven't already, please download and install [Docker Engine](https://docs.docker.com/engine/install/ubuntu/)
+
+2. Build a Docker image from the Dockerfile, which is located in the current directory. The ```--tag``` (```-t```) flag is used to name the Docker image: 
+```
+sudo docker build -t ngtd .
+```
+
+3. Run the application in a Docker container, specifying the image reference to create the container:
+```
+sudo docker run -it ngtd --help
+```
+The installation has been successful if you are presented with the following output:
+```
+usage: main.py [-h] [-g] [-b] [-r R_NUMBER] [-d [DOWNLOAD_DIRECTORY]]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -g, --gene_list       Return a list of gene from a gene panel for a given R
+                        number
+  -b, --create_bed      Generate a bed file for a given gene list
+  -r R_NUMBER, --r_number R_NUMBER
+                        Provide the R number from the Genomic Test Directory
+                        that you wish to enquire about
+  -d [DOWNLOAD_DIRECTORY], --download_directory [DOWNLOAD_DIRECTORY]
+                        Download the latest national test directory and save.
+                        Please input an output location, default output to
+                        docs directory
+```
+
+4. Updates to the database, downloaded files and created beds are kept in the container. Run the following code to open an interactive session in the container to interact with these files:
+```
+# Find the container ID and copy it for the next step
+sudo docker ps -a
+
+# Commit your latest container to a new image
+sudo docker commit [CONTAINER ID] [NEW_IMAGE_NAME]
+
+# Start a terminal inside your container
+sudo docker run -it --entrypoint=sh [NEW_IMAGE_NAME]
+```
+
+### For Mac OS
+1. If you havent already, please download and install [Docker Desktop](https://www.docker.com/products/docker-desktop/) 
+
 
 In the command line, launch the Docker daemon using Docker Desktop:
 ```
@@ -80,7 +132,7 @@ docker build -t ngtd .
 
 Run the application in a Docker container, specifying the image reference to create the container:
 ```
-docker run ngtd python main.py --help
+docker run -it ngtd --help
 ```
 The installation has been successful if you are presented with the following output:
 ```
@@ -99,4 +151,6 @@ options:
                         Download the latest national test directory. Please
                         provide an output location. Outputs by default to the
                         docs/ directory
+
 ```
+5. Updates to the database, downloaded files and created beds are kept in the container. These can be accessed for Docker Desktop or at the commandline.
