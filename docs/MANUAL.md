@@ -6,7 +6,8 @@ Authors: Caroline Riehl
 ## Installation 
 See the [INSTALL.md](INSTALL.md) document for full instructions.
 
-## Local Install Operation
+## Operation
+### If installed locally:
 NGTD_App is operated by running the python `main.py` script. Running the script with the `-h` flag shows the different options of how to run the tool.
 
 ```
@@ -25,7 +26,7 @@ options:
 
 ```
 
-## Examples
+#### Examples
 *[arg] is a valid R number from National Genomic Test Directory.*
 
 **To obtain a list of genes relating to a panel and its clinical indication:**
@@ -76,7 +77,7 @@ Downloaded Test Directory Version 6
 It can be found in: ~/NGTD_App/docs/Rare-and-inherited-disease-national-genomic-test-directory-version-6.xlsx
 ```  
 
-### Please Note
+#### Please Note
 The `-r` flag to provide a valid panel R number is always required when using flags `-b` and `-g`.  
 Flags `-b`, `-g`, `-d` may all be used at the same time.
 
@@ -87,11 +88,11 @@ The following flag combinations are also valid:
 - `-d -r [arg] -b`
 - `-d -r [arg] -g -b`  
 
-## Docker Install Operation
+### If installed via Docker:
 
 The Docker is executed in a different way, but the flag options remain the same as above.
 
-### For Linux
+#### For Linux
 
 ```
 # basic usage. 
@@ -114,9 +115,9 @@ sudo docker commit [CONTAINER ID] [NEW_IMAGE_NAME]
 sudo docker run -it --entrypoint=sh [NEW_IMAGE_NAME]
 ```
 
-### For Mac OS
+#### For Mac OS
 
-Docker Desktop must be open in the background for the daemon to work. then run:
+Docker Desktop must be open in the background for the daemon to work. Then run:
 ```
 # basic usage. 
 # '-it' is necessary for user input during programme
