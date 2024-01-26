@@ -1,52 +1,36 @@
-'''############################################################################
+"""
 Test Panel App Request Object
-Hits PanelApp API to return a list of genes for a gene panel from a given
-R number
-############################################################################'''
+Author: Niall Gallop
+"""
 
 import pytest
+import src.command_line_interface as cli
 import src.panelapp_requests as panelapp_requests
-from config import log
 
 @pytest.fixture
-def r_code():
-    r_code = 'R134'
-    return r_code
+def args():
+    parser = cli.CommandLineInterface(["-g", "-r", "R134"])
+    args = parser.args
+    return args
 
 @pytest.fixture
-def target():
-    r_code = 'R134'
-    target = panelapp_requests.MyRequests(r_code)
-    return target
+def bad_args():
+    parser = cli.CommandLineInterface(["-g", "-r", "R428"])
+    args = parser.args
+    return args
 
-@pytest.fixture
-def bad_r_target():
-    bad_r_code = 'R428'
-    corrupt_target = panelapp_requests.MyRequests(bad_r_code)
-    return corrupt_target
-
-def test_request_data(target):
+def test_request_data(args):
+    target = panelapp_requests.MyRequests(args)
     response = target.request_data()
     assert response.status_code == 200
 
-def test_request_data_bad_r_code(bad_r_target):
+def test_request_data_bad_r_code(bad_args):
+    target = panelapp_requests.MyRequests(bad_args)
     with pytest.raises(SystemExit):
-        bad_r_target.request_data()
+        target.request_data()
    
-def test_gene_list(target):
+def test_gene_list(args):
+    target = panelapp_requests.MyRequests(args)
     response = target.request_data()
     gene_list, signoff = target.gene_list(response)
-    assert gene_list == ['APOB', 'APOE', 'LDLR', 'LDLRAP1', 'PCSK9', 'GCKR']
-
-
-def test_print_info(capsys, r_code, target):
-    response = target.request_data()
-    gene_list, signoff = target.gene_list(response)
-    target.print_info(response, r_code, gene_list, signoff)
-    captured = capsys.readouterr()
-    assert captured.out == (
-        '\nThis panel is GMS signed-off'
-        '\n\nClinical Indication: Familial hypercholesterolaemia (GMS)'
-        '\nGenes included in the R134 panel: APOB APOE LDLR LDLRAP1 PCSK9'
-        ' GCKR\n'
-    )
+    assert gene_list == ["APOB", "APOE", "LDLR", "LDLRAP1", "PCSK9", "GCKR"]

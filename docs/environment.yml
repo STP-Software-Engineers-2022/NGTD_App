@@ -1,7 +1,6 @@
 name: ngtd
 channels:
- - defaults
+ - bioconda
 dependencies:
  - python==3.12
- - pip==23.3
- - requests==2.31.0
+ - pip
