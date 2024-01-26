@@ -72,7 +72,6 @@ class GetDirectory:
             log.error(urlerr.args[0])
             return False
 
-
         # Create regular expressions to find document version
         version_pattern = ("The National genomic test directory.*rare "
         "and inherited disorders.*</p>\n<p>Version.*</p>")
@@ -80,7 +79,6 @@ class GetDirectory:
         match_version_results = re.search(version_pattern, html, 
                                 re.IGNORECASE)
         
-
         if match_version_results is None:
             msg = "Version pattern not found in the HTML code."
             print(msg)
@@ -92,6 +90,7 @@ class GetDirectory:
                                     match_version_results[0], re.IGNORECASE)
             doc_version = re.sub(
                 "^<.*?>|</.*?>", "", match_html_tag_results[0])
+
             doc_version = doc_version.split(" ") # remove unnecessary text
             log.debug("-d: found document version")
             print("Downloading Test Directory:", doc_version[0], 
@@ -111,6 +110,7 @@ class GetDirectory:
             return False
         else:
             doc_url = re.sub("<a href=\"", "", match_download_pattern[0])
+
             doc_file = doc_url.split("/")
             try:
                 doc_request = requests.get(doc_url, allow_redirects = True)
