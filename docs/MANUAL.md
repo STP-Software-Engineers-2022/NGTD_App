@@ -1,6 +1,6 @@
 # USER MANUAL
 Date created: 23-Jan-2024  
-Date modified: 24-Jan-2024  
+Date modified: 26-Jan-2024  
 Authors: Caroline Riehl  
 
 ## Installation 
@@ -80,21 +80,21 @@ It can be found in: ~/NGTD_App/docs/Rare-and-inherited-disease-national-genomic-
 The `-r` flag to provide a valid panel R number is always required when using flags `-b` and `-g`.  
 Flags `-b`, `-g`, `-d` may all be used at the same time.
 
-The following flag combinations are also valid:
-- `-r [arg] -g -b`
-- `-d -r`
-- `-d -r [arg] -g`
-- `-d -r [arg] -b`
-- `-d -r [arg] -g -b`  
+The following flag combinations are also valid:  
+- `-r [arg] -g -b`  
+- `-d -r`  
+- `-d -r [arg] -g`  
+- `-d -r [arg] -b`  
+- `-d -r [arg] -g -b`    
 
 ## Scripts
-The programme uses the following scripts:
-1. **`main.py`**: the main script that is used to run all other scripts
-2. **`command_line_interface.py`**: script to capture all user arguments provided by the user
-3. **`panelapp_request.py`**: script to query the [PanelApp API](https://panelapp.genomicsengland.co.uk/api/docs/) using the panel R number provided by the user
-4. **`create_beds.py`**: script to create the bed file using [VariantValidator rest API](https://rest.variantvalidator.org) depending on the R number and the reference genome build provided by the user
-5. **`data_import.py`**: script to upload panel information and bed file location to the database
-6. **`get_directory.py`**: script to download the current [National Genomic Test Directory](https://www.england.nhs.uk/publication/national-genomic-test-directories/) document into the `NGTD_App/docs/` directory
+The programme uses the following scripts:  
+1. **`main.py`**: the main script that is used to run all other scripts  
+2. **`command_line_interface.py`**: script to capture all user arguments provided by the user  
+3. **`panelapp_request.py`**: script to query the [PanelApp API](https://panelapp.genomicsengland.co.uk/api/docs/) using the panel R number provided by the user  
+4. **`create_beds.py`**: script to create the bed file using [VariantValidator rest API](https://rest.variantvalidator.org) depending on the R number and the reference genome build provided by the user  
+5. **`data_import.py`**: script to upload panel information and bed file location to the database  
+6. **`get_directory.py`**: script to download the current [National Genomic Test Directory](https://www.england.nhs.uk/publication/national-genomic-test-directories/) document into the `NGTD_App/docs/` directory  
 
 ### Script Flow UML
 Below is a UML of the flow of the different scripts showcasing their key classes and the functions that are called.
@@ -103,13 +103,13 @@ Below is a UML of the flow of the different scripts showcasing their key classes
 ## Database
 The database, `ngtd.db`, was created using the script `database.py`.  
 
-It holds 6 tables:
-- *patient*: contains patient data, including a record number, first name, surname, date of birth, clinical features, sex
-- *test*: contains test information, including a panel's R number, id, version, signoff status, bedfile id (foreign key of *bedfile* table), and the date it was added to the database
-- *gene*: contains gene information, including its symbol and HGNC ID (which remains the same when the symbol changes) 
-- *bedfile*: contains the file path of the bed file's location
-- *patient2test*: a join table that links patient records to tests using these tables' primary keys
-- *test2gene*: a join table that links tests to genes using these tables' primary keys  
+It holds 6 tables:  
+- ***patient***: contains patient data, including a record number, first name, surname, date of birth, clinical features, sex  
+- ***test***: contains test information, including a panel's R number, id, version, signoff status, bedfile id (foreign key of *bedfile* table), and the date it was added to the database  
+- ***gene***: contains gene information, including its symbol and HGNC ID (which remains the same when the symbol changes)  
+- ***bedfile***: contains the file path of the bed file's location  
+- ***patient2test***: a join table that links patient records to tests using these tables' primary keys  
+- ***test2gene***: a join table that links tests to genes using these tables' primary keys  
 
 ### Database UML 
 ![Alt text](img/database_uml.png)  
@@ -127,6 +127,7 @@ It holds 6 tables:
 ![Alt text](img/test_DB.png)   
 
 When running the `main.py` script with `-r [arg] -b`, `data_import.py` first checks whether the panel, its most up-to-date version, and the bed file for the requested genome build already exist in the database. If any of those 3 options differ, the panel information is added to the database along with the path of the location of the new bed file.  
+
 As multiple panels may contain the same genes, the script ensures that no duplicates of genes are created by checking for the presence of the gene's HGNC ID in the gene table. If the ID already exists, its primary key is used to link it to the new test in the *test2gene* table. If the HGNC ID does not yet exist, a new entry and new primary key are created in the *gene* table and used instead. 
 
 **Table *test2gene***  
@@ -137,7 +138,8 @@ As multiple panels may contain the same genes, the script ensures that no duplic
 
 ## Logging
 Logging is carried out using the `logger.py` script, configured under `config.py`, which tracks the running of all scripts.   
-To minimise storage issues, `logger.py` creates a rotating log file that resets at midnight.  
+To minimise storage issues, `logger.py` creates a rotating log file that resets at midnight.
+
 All logs are stored in NGTD_App/logs.
 
 ## Basic Debugging 
@@ -161,7 +163,7 @@ If bed file creation selected, an R number must be  passed with flag -r
 ```
 
 ### Understanding `main.py` flags 
-The correct handling of flags can be investigated by reading the operation section within this document or running `main.py` with the `-h` flag directly. This will output a summary of all flags and how to use them. 
+The correct handling of flags can be investigated by reading the operation section within this document or running `main.py` with the `--help (-h)` flag directly. This will output a summary of all flags and how to use them. 
 
 ### Invalid R number
 If an invalid R number is provided, the following error message will be received.
